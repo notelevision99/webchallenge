@@ -3,17 +3,17 @@ import axios from 'axios';
 
 import { Redirect, withRouter } from 'react-router';
 import { Link, NavLink, useRouteMatch as match } from "react-router-dom";
-import Header from '../../../pages/Header'
-import Menu from '../../../pages/Menu'
-import "../../../css/./main.css";
+import Header from '../../../layout/admin/Header'
+import Menu from '../../../layout/admin/Menu'
+import "../../../../css/main.css";
 
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Footer from '../../../pages/Footer';
-import Modal from '../../helperComponent/modal';
-import { API_URL } from "../../../helpers/urlCallAxios";
-import { showToastSuccess } from '../../../helpers/toastNotify';
+import Footer from '../../../layout/admin/Footer';
+import Modal from '../../../helperComponent/modal';
+import { API_URL } from "../../../../helpers/admin/urlCallAxios";
+import { showToastSuccess } from '../../../../helpers/admin/toastNotify';
 import Pagination from "react-js-pagination";
 
 
@@ -213,11 +213,13 @@ class Product extends React.Component {
      * Handle Paging
      */
     handlePageChange(pageNumber) {
+        
         this.setState({
             activePage: pageNumber
         }, () => {
             this.componentDidMount()
             window.scroll(0, 0)
+           
         })
 
     }

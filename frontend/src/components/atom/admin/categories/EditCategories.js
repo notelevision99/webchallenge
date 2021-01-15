@@ -1,12 +1,12 @@
 import React from 'react'
 import axios from "axios";
-import { API_URL } from "../../../helpers/urlCallAxios";
-import Header from '../../../pages/Header';
-import Menu from '../../../pages/Menu';
-import Footer from '../../../pages/Footer';
+import { API_URL } from "../../../../helpers/admin/urlCallAxios";
+import Header from '../../../layout/admin/Header';
+import Menu from '../../../layout/admin/Menu';
+import Footer from '../../../layout/admin/Footer';
 import { ToastContainer } from 'react-toastify';
 import { Redirect } from 'react-router-dom';
-import { showToastSuccess } from '../../../helpers/toastNotify';
+import { showToastSuccess } from '../../../../helpers/admin/toastNotify';
 import Pagination from "react-js-pagination";
 export default class EditCategories extends React.Component {
     constructor(props) {

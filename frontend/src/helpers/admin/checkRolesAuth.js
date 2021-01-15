@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { authControl } from "../components/admin/auth/Login";
+import { authControl } from "../../components/atom/admin/auth/Login";
 import Cookies  from "js-cookie";
 
 

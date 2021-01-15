@@ -1,11 +1,13 @@
 import React from 'react'
 import { Link, NavLink, useRouteMatch as match, withRouter } from "react-router-dom";
-import Header from '../../../pages/Header';
-import Menu from '../../../pages/Menu';
+import Header from '../../../layout/admin/Header';
+import Menu from '../../../layout/admin/Menu';
 import { ToastContainer, toast } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
-import { showToastSuccess } from '../../../helpers/toastNotify';
-import { API_URL } from "../../../helpers/urlCallAxios";
+
+import { showToastSuccess } from '../../../../helpers/admin/toastNotify';
+import { API_URL } from "../../../../helpers/admin/urlCallAxios";
 import axios from "axios";
 
 

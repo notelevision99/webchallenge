@@ -1,15 +1,15 @@
 import Axios from 'axios'
 import React from 'react'
 import axios from "axios";
-import { API_URL } from "../../../helpers/urlCallAxios";
-import Header from '../../../pages/Header';
-import Menu from '../../../pages/Menu';
-import Footer from '../../../pages/Footer';
+import { API_URL } from "../../../../helpers/admin/urlCallAxios";
+import Header from '../../../layout/admin/Header';
+import Menu from '../../../layout/admin/Menu';
+import Footer from '../../../layout/admin/Footer';
 import { Link, NavLink, Redirect, useRouteMatch as match, withRouter } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Modal from '../../helperComponent/modal';
-import { showToastSuccess } from '../../../helpers/toastNotify';
+import Modal from '../../../helperComponent/modal';
+import { showToastSuccess } from '../../../../helpers/admin/toastNotify';
 export default class ListAdmins extends React.Component {
 
     constructor(props) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, withRouter } from "react-router-dom";
-import { API_URL } from "../helpers/urlCallAxios";
+import { API_URL } from "../../../helpers/admin/urlCallAxios";
 import axios from "axios";
 import  Cookies  from "js-cookie";
 

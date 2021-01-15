@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '../../pages/Header';
-import Menu from '../../pages/Menu';
+import Header from '../../../layout/admin/Header';
+import Menu from '../../../layout/admin/Menu';
 
 export default class Home extends React.Component {
     constructor(props)

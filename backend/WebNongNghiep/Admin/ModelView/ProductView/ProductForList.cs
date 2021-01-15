@@ -20,6 +20,12 @@ namespace WebNongNghiep.ModelView
 
         public int TotalCount { get; set; }
 
+        public string ProductDetails { get; set; }
+
+        public string Company { get; set; }
+
+        public float Weight { get; set; }
+
         public string PhotoUrl { get; set; }
 
 

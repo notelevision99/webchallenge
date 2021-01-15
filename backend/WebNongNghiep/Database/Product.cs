@@ -18,6 +18,8 @@ namespace WebNongNghiep.Database
 
         public int CategoryId { get; set; }
 
+        public string CategoryName { get; set; }
+
         [Required]
         public decimal Price { get; set; }
 
@@ -28,6 +30,10 @@ namespace WebNongNghiep.Database
 
         [StringLength(10000)]
         public string ProductDetails { get; set; }
+
+        public string Company { get; set; }
+
+        public float Weight { get; set; }
 
         public virtual Category Category { get; set; }
 

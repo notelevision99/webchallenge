@@ -2,8 +2,8 @@ import React from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import Cookies from "js-cookie";
-import Menu from "../../../pages/Menu";
-import Product from "../Products/Product";
+import Menu from "../../../layout/admin/Menu";
+import Product from "../../../atom/admin/Products/Product";
 
 const API_URL = 'https://localhost:44310/admin' 
 

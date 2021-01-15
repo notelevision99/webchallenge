@@ -1,32 +1,43 @@
-import axios from 'axios';
 import React from 'react'
-import { NavLink, Redirect } from 'react-router-dom';
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+import Header from '../../../layout/admin/Header';
+import Menu from '../../../layout/admin/Menu';
+import { API_URL } from "../../../../helpers/admin/urlCallAxios";
+import Modal from "../../../../components/helperComponent/modal";
+
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Footer from '../../../pages/Footer';
-import Header from '../../../pages/Header';
-import Menu from '../../../pages/Menu';
-import { showToastFailed, showToastSuccess }  from "../../../helpers/toastNotify";
+import { showToastSuccess } from '../../../../helpers/admin/toastNotify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CloudinaryUnsigned } from 'puff-puff/CKEditor';
-const API_URL = 'https://localhost:44310/admin';
 
-export default class CreateProduct extends React.Component {
+
+export default class EditProduct extends React.Component {
 
     constructor(props) {
+
         super(props);
         this.state = {
-            /**State Product Info */
             productName: '',
-            price: '',
             categories: null,
-            selectedFile: [],
-            idProduct: 0,
+            categoryName: '',
             categoryId: 0,
+            price: '',
             description: '',
             productDetails: '',
-            /**End State Product Info */
+
+            /**State onChange Image Input */
+            selectedFile: [],
+            /**End */
+
+            photos: [],
+            /*Modal DeleteImage State */
+            idImageToDel: 0,
+            showModal: false,
+            urlImageToDelete: '',
+            /**End Modal DeleteImage State */
             redirect: false,
 
 
@@ -40,17 +51,36 @@ export default class CreateProduct extends React.Component {
         this.fileInput = React.createRef();
     }
 
+    /**
+     * GET PRODUCT BY ID
+     */
 
     componentDidMount() {
-        /**
-         * Get ListCategories
-         */
-        const url = `${API_URL}/api/categories`;
-        axios.get(url, { withCredentials: true }).then(res => res.data)
+        const urlGetListProduct = `${API_URL}/api/products/${this.props.match.params.id}`;
+        const urlGetListCategories = `${API_URL}/api/categories/`
+        axios.get(urlGetListProduct, { withCredentials: true }).then(res => res.data)
+            .then((data) => {
+                this.setState({
+                    productName: data.productName,
+                    categoryId: data.categoryId,
+                    categoryName: data.categoryName,
+                    price: data.price,
+                    description: data.description,
+                    productDetails: data.productDetails,
+                    photos: data.photos
+                })
+                console.log(data)
+
+            })
+        return axios.get(urlGetListCategories, { withCredentials: true }).then(res => res.data)
             .then((data) => {
                 this.setState({ categories: data })
             })
+
+
+
     }
+
 
     /**
      * onChange ProdName
@@ -74,49 +104,55 @@ export default class CreateProduct extends React.Component {
     /**
      * onChange Description
      */
-    handleDescriptionChange = (event,editor) => {
+    handleDescriptionChange = (event, editor) => {
+        const data = editor.getData();
         this.imagePluginFactory(editor)
-        this.setState({description: editor.getData()})
+        this.setState({ description: data })
     }
     imagePluginFactory(editor) {
-        editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-          return new CloudinaryUnsigned( loader, 'dvezhpk57', 'lmgwffy6', [ 160, 500, 1000, 1052 ]);
+        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+            return new CloudinaryUnsigned(loader, 'dvezhpk57', 'lmgwffy6', [160, 500, 1000, 1052]);
         };
     }
-    /***************END onChange Description */
 
+    /********************* END onChange Description */
 
     /**
-     * onChange ProductDetails
+     * onChange Description
      */
-    handleProductDetailsChange = (event,editor) => {
+    handleProductDetailsChange = (event, editor) => {
+        const data = editor.getData();
         this.imagePluginFactory(editor)
-        this.setState({productDetails: editor.getData()})
+        this.setState({ productDetails: data })
     }
     imagePluginFactory(editor) {
-        editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-          return new CloudinaryUnsigned( loader, 'dvezhpk57', 'lmgwffy6', [ 160, 500, 1000, 1052 ]);
+        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+            return new CloudinaryUnsigned(loader, 'dvezhpk57', 'lmgwffy6', [160, 500, 1000, 1052]);
         };
     }
-    /***************END onChange ProductDetails */
+
+    /********************* END onChange Description */
 
     /**
     * onChange File(Image)
     */
     onFileChange = event => {
-
+        event.preventDefault();
+        // this.setState(prevState => ({
+        //     selectedFile: [...prevState.selectedFile, event.target.files]
+        // }))
         // Update the state 
-        this.setState({ selectedFile: event.target.files });
-
+        this.setState({ selectedFile: event.target.files })
+        console.log("Slected Image:", event.target.files);
     };
-
-    
 
     /**
     * Upload File
     */
 
-   
+
+
+
     /**
     * UPLOAD PRODUCT
     */
@@ -129,8 +165,7 @@ export default class CreateProduct extends React.Component {
             description: this.state.description,
             productDetails: this.state.productDetails,
             photoUrl: "asd"
-        })
-
+        })  
         const formData = new FormData();
         for (const file of this.state.selectedFile) {
             formData.append(
@@ -141,11 +176,14 @@ export default class CreateProduct extends React.Component {
 
         }
 
-        const url = `${API_URL}/api/products`;
-        axios.post(url, product, {
+        const url = `${API_URL}/api/products/${this.props.match.params.id}`;
+
+        axios.put(url, product, {
             withCredentials: true,
             "headers": {
+
                 "content-type": "application/json",
+
             }
 
         }).then(res => {
@@ -155,47 +193,55 @@ export default class CreateProduct extends React.Component {
                 redirect: true,
 
             })
-            return axios.post(`${API_URL}/api/products/${this.state.idProduct}/photos`, formData, {
-                withCredentials: true,
-                "headers": {
-                    "content-type": 'multipart/form-data',
-                }
-            }).then(() => {
-                showToastSuccess('Thêm thành công')
 
-            })
-
-
+            if (this.state.selectedFile) {
+                return axios.post(`${API_URL}/api/products/${this.props.match.params.id}/photos`, formData, {
+                    withCredentials: true,
+                    "headers": {
+                        "content-type": 'multipart/form-data',
+                    }
+                }).then(() => showToastSuccess('Cập nhật sản phẩm thành công'));
+            }
         }).catch(error => {
             console.log(error.message);
-            showToastFailed('Thêm thất bại!!!')
         });
 
 
     }
-
     /**GET FILE DATA */
-    fileData = () => {
 
-        if (this.state.selectedFile) {
 
-            return (
-                <div>
-                    <h2>File Details:</h2>
-                    <p>File Name: {this.state.selectedFile.name}</p>
-                    <p>File Type: {this.state.selectedFile.type}</p>
+    /**
+     * Handle Delete Image
+     */
+    onDeleteImage = () => {
+        console.log(this.props.match.params.id)
+        const urlToDeleteImage = `${API_URL}/api/products/${this.props.match.params.id}/photos/${this.state.idImageToDel}`
+        axios.delete(urlToDeleteImage, null, { withCredentials: true })
+            .then(() => {
+                window.location.reload();
+                showToastSuccess('Xóa hình ảnh thành công')
+            })
+    }
 
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <br />
-                    <p>Vui lòng chọn hình ảnh </p>
-                </div>
-            );
-        }
-    };
+    showModal = (urlImage, id) => {
+        this.setState({
+            showModal: true,
+            idImageToDel: id,
+            urlToDeleteImage: urlImage
+        })
+    }
+
+    /**
+     * 
+     * Handle List Categories
+     */
+    handleChangeListCategories(event) {
+        this.setState({
+            categoryId: event.target.value
+        })
+
+    }
 
 
     /**
@@ -206,7 +252,6 @@ export default class CreateProduct extends React.Component {
             e.preventDefault();
 
             /***UPLOAD PRODUCT */
-
             this.onProductUpload()
 
 
@@ -215,23 +260,9 @@ export default class CreateProduct extends React.Component {
     }
 
 
-    /**HandleChange ListCategories */
-    handleChangeListCategories(e) {
-        try {
-            this.setState({
-                categoryId: e.target.value
-            })
-        } catch (error) {
-
-        }
-    }
-
-    /**NOTIFY SUCCESS*/
 
 
     render() {
-
-
 
         return (
             <>
@@ -239,11 +270,11 @@ export default class CreateProduct extends React.Component {
                 <Menu />
                 <div className='content-wrapper' style={{minHeight:'700px'}}>
                     {/* Content Header (Page header) */}
-                    <section classNayme="content-header">
+                    <section className="content-header">
                         <div className="container-fluid">
                             <div className="row mb-2">
                                 <div className="col-sm-6">
-                                    <h1>Thêm sản phẩm</h1>
+                                    <h1>Sửa sản phẩm</h1>
                                 </div>
 
                             </div>
@@ -259,7 +290,7 @@ export default class CreateProduct extends React.Component {
                                     {/* general form elements disabled */}
                                     <div className="card card-warning">
                                         <div className="card-header">
-                                            <h3 className="card-title">Biểu mẩu thêm sản phẩm</h3>
+                                            <h3 className="card-title">Biểu mẩu sửa sản phẩm</h3>
                                         </div>
                                         {/* /.card-header */}
                                         <div className="card-body">
@@ -286,9 +317,9 @@ export default class CreateProduct extends React.Component {
                                                             <label>Mô tả sản phẩm</label>
                                                             <CKEditor
                                                                 editor={ClassicEditor}
-                                                                data={this.state.desription}
+
+                                                                data={this.state.description != null && this.state.description}
                                                                 onChange={this.handleDescriptionChange}
-                                                                
                                                             />
                                                         </div>
                                                     </div>
@@ -298,20 +329,22 @@ export default class CreateProduct extends React.Component {
                                                             <label>Chi tiết sản phẩm</label>
                                                             <CKEditor
                                                                 editor={ClassicEditor}
-                                                                data={this.state.productDetails}
+
+                                                                data={this.state.productDetails != null && this.state.productDetails}
                                                                 onChange={this.handleProductDetailsChange}
-                                                                
                                                             />
                                                         </div>
                                                     </div>
-                                                    {/* Load ListCategories */}
                                                     {
-                                                        this.state.categories ?
+                                                        this.state.categories &&
                                                             <div className="col-sm-6">
                                                                 {/* select */}
                                                                 <div className="form-group">
                                                                     <label>Loại sản phẩm</label>
+
                                                                     <select className="form-control"
+                                                                        value={this.state.categoryId}
+                                                                        defaultValue={{ label: this.state.categoryName, value: this.state.categoryId }}
                                                                         onChange={this.handleChangeListCategories}>
                                                                         {
                                                                             this.state.categories.map((record) => (
@@ -320,10 +353,10 @@ export default class CreateProduct extends React.Component {
                                                                         }
                                                                     </select>
                                                                 </div>
-                                                            </div> : null
+                                                            </div> 
 
                                                     }
-                                                    {/* End Load ListCategories */}
+
 
                                                 </div>
                                                 <div className="form-group">
@@ -332,15 +365,40 @@ export default class CreateProduct extends React.Component {
                                                         <div className="custom-file">
                                                             <label className="custom-file-label" htmlFor="exampleInputFile">
                                                                 Choose file
-                                                        <input type="file" onChange={this.onFileChange} className="custom-file-input" id="exampleInputFile" multiple />
+                                                            <input type="file" onChange={this.onFileChange} className="custom-file-input" id="exampleInputFile" multiple />
                                                             </label>
 
                                                         </div>
-
+                                                        {/* Kiểm tra sản phẩm có hình thì render nếu không thì không xét */}
                                                     </div>
-                                                    <div>
                                                     {
-                                                        <div className="List_nameImage">
+                                                        this.state.photos != null &&
+                                                        <div className="row">
+                                                            {
+                                                                this.state.photos.map((record, index) => (
+                                                                    <div className="col-3" className="rounded-top">
+                                                                        <i onClick={() => this.showModal(record.url, record.id)} class="fas fa-minus-circle"
+                                                                            data-target="#exampleModal" data-toggle="modal"
+                                                                        />
+                                                                        <img src={record.url} width="200px" height="200px" />
+                                                                        {
+                                                                            this.state.showModal &&
+                                                                            <Modal content={'Bạn có muốn xóa hình ảnh:' + " " + this.state.idImageToDel}
+                                                                                title='Xóa hình ảnh'
+                                                                                urlImage={this.state.urlToDeleteImage}
+                                                                                submit={() => this.onDeleteImage()}
+                                                                            />
+                                                                        }
+                                                                    </div>
+
+                                                                ))
+
+                                                            }
+
+                                                        </div>
+                                                    }
+                                                    {/* ...End */}
+                                                    <div className="List_nameImage">
                                                         {
                                                             Object.keys(this.state.selectedFile).map((item) => {
                                                                 console.log("this.state.selectedFile[item].name:", this.state.selectedFile[item].name);
@@ -354,21 +412,19 @@ export default class CreateProduct extends React.Component {
                                                             })
                                                         }
                                                     </div>
-                                                    }
-                                                    </div>
+
                                                 </div>
                                                 {
-                                                    this.state.redirect && (
-
-                                                        <Redirect to='/products' />
-
-
-                                                    )
+                                                    this.state.redirect && <Redirect to='/products' /> 
                                                 }
-                                                <button
 
-                                                    className="btn btn-success">Xác nhận
-                                            </button>
+                                                <button className="btn btn-success">Xác nhận</button>
+                                                <div className='col-md-6'>
+
+                                                </div>
+
+
+
 
                                                 {/* input states */}
 
@@ -385,7 +441,6 @@ export default class CreateProduct extends React.Component {
                         </div>{/* /.container-fluid */}
                     </section>
                     {/* /.content */}</div>
-                <Footer />
                 <ToastContainer />
             </>
 

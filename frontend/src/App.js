@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 
-import ListCategories from './components/admin/categories/ListCategories';
-import EditCategories from './components/admin/categories/EditCategories';
-import Login from './components/admin/auth/Login';
-import ListAdmins from "./components/admin/users/ListAdmins";
-import CreateAdmin from "./components/admin/users/CreateAdmin";
+import ListCategories from './components/atom/admin/categories/ListCategories';
+import EditCategories from './components/atom/admin/categories/EditCategories';
+import Login from './components/atom/admin/auth/Login';
+import ListAdmins from "./components/atom/admin/users/ListAdmins";
+import CreateAdmin from "./components/atom/admin/users/CreateAdmin";
 import './App.css';
 import { BrowserRouter as Router, Route, withRouter } from "react-router-dom"
 
 
-import Product from "./components/admin/Products/Product";
+import Product from "./components/atom/admin/Products/Product";
 import { Switch, Redirect } from 'react-router-dom';
-import Home from './components/admin/Home';
-import CreateProduct from './components/admin/Products/CreateProduct';
+import Home from './components/atom/admin/home/Home';
+import CreateProduct from './components/atom/admin/Products/CreateProduct';
 
-import EditProduct from './components/admin/Products/EditProduct';
-import ProtectedRoute from "./helpers/checkRolesAuth";
+import EditProduct from './components/atom/admin/Products/EditProduct';
+import ProtectedRoute from "./helpers/admin/checkRolesAuth";
 
 
 export default class App extends Component {

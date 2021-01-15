@@ -1,11 +1,11 @@
 import React from 'react'
 import axios from "axios";
-import { API_URL } from "../../../helpers/urlCallAxios";
+import { API_URL } from "../../../../helpers/admin/urlCallAxios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Menu from '../../../pages/Menu';
-import Header from '../../../pages/Header';
-import Footer from '../../../pages/Footer';
+import Menu from '../../../layout/admin/Menu';
+import Header from '../../../layout/admin/Header';
+import Footer from '../../../layout/admin/Footer';
 import { Redirect } from 'react-router-dom';
 export default class CreateAdmin extends React.Component {
     constructor(props) {

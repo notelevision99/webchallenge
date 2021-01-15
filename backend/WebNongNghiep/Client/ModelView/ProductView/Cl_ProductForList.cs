@@ -22,7 +22,9 @@ namespace WebNongNghiep.Client.ModelView.ProductView
 
         public string PhotoUrl { get; set; }
 
+        public string Company { get; set; }
 
+        public float Weight { get; set; }
 
         public ICollection<PhotoForDetail> Photos { get; set; }
     }

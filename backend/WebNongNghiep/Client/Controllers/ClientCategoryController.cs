@@ -7,7 +7,9 @@ using Fop.FopExpression;
 using Microsoft.AspNetCore.Mvc;
 using WebNongNghiep.Client.InterfaceService;
 using WebNongNghiep.Client.ModelView.ProductView;
+using WebNongNghiep.Database;
 using WebNongNghiep.Helper;
+using WebNongNghiep.Helper.SortFilterPaging;
 
 namespace WebNongNghiep.Client.Controllers
 {
@@ -15,27 +17,55 @@ namespace WebNongNghiep.Client.Controllers
     public class ClientCategoryController : Controller
     {
         private IClientCategoryServices _categoryServices;
-        public ClientCategoryController(IClientCategoryServices categoryServices)
+        private MasterData _db;
+        public ClientCategoryController(IClientCategoryServices categoryServices, MasterData db)
         {
             _categoryServices = categoryServices;
+            _db = db;
         }
         [HttpGet()]
         public async Task<IActionResult> GetListCategories()
         {
-            var listCategories = await _categoryServices.GetListCategories();
-            if (listCategories == null)
+            try
             {
-                return new BadRequestObjectResult(new { Message = "Không tìm thấy loại sản phẩm" });
+                var listCategories = await _categoryServices.GetListCategories();
+                if (listCategories == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy loại sản phẩm" });
+                }
+                return Ok(listCategories);
             }
-            return Ok(listCategories);
+            catch(Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+           
         }    
         [HttpGet("getproductsbycateid/{cateId}")]
-        public async Task<IActionResult> GetProductsByCateId(int cateId, [FromQuery] FopQuery request)
+        
+        public IActionResult GetProductsByCateId(int cateId,[FromQuery] FilterModel filterParams)
         {
-            var fopRequest = FopExpressionBuilder<Cl_ProductForList>.Build(request.Filter, request.Order, request.PageNumber, request.PageSize);
-            var (listProductsByCateId, totalCount) = await _categoryServices.GetProductsByCateId(cateId, fopRequest);
-            var response = new PagedResult<IEnumerable<Cl_ProductForList>>((listProductsByCateId), totalCount, request.PageNumber, request.PageSize); ;
-            return Ok(response);
+            
+            try
+            {
+                
+                var result = _categoryServices.GetProductsByCateId(cateId, filterParams);
+                if (result == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Có lỗi xảy ra khi tìm kiếm sản phẩm" });
+                }
+                
+                
+                return Ok(result);
+
+            }
+            catch(Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+            
+            
+
 
         }
     }
