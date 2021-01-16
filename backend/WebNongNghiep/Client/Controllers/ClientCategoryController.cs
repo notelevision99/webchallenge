@@ -17,11 +17,10 @@ namespace WebNongNghiep.Client.Controllers
     public class ClientCategoryController : Controller
     {
         private IClientCategoryServices _categoryServices;
-        private MasterData _db;
-        public ClientCategoryController(IClientCategoryServices categoryServices, MasterData db)
+    
+        public ClientCategoryController(IClientCategoryServices categoryServices)
         {
             _categoryServices = categoryServices;
-            _db = db;
         }
         [HttpGet()]
         public async Task<IActionResult> GetListCategories()
@@ -41,16 +40,14 @@ namespace WebNongNghiep.Client.Controllers
             }
            
         }    
-        [HttpGet("getproductsbycateid/{cateId}")]
-        
-        public IActionResult GetProductsByCateId(int cateId,[FromQuery] FilterModel filterParams)
+        [HttpGet("getproductsbycateid/{cateId}")]      
+        public async Task<IActionResult> GetProductsByCateId(int cateId,[FromQuery] FilterModel filterParams)
         {
             
             try
-            {
-                
-                var result = _categoryServices.GetProductsByCateId(cateId, filterParams);
-                if (result == null)
+            {             
+                var result = await _categoryServices.GetProductsByCateId(cateId, filterParams);
+                if (result == (null,0))
                 {
                     return new BadRequestObjectResult(new { Message = "Có lỗi xảy ra khi tìm kiếm sản phẩm" });
                 }
@@ -63,10 +60,10 @@ namespace WebNongNghiep.Client.Controllers
             {
                 return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
             }
-            
-            
-
-
+                      
         }
+
+        
+
     }
 }

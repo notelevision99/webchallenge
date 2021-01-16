@@ -14,6 +14,7 @@ namespace WebNongNghiep.Client.InterfaceService
     {
         Task<IEnumerable<Cl_CategoryToReturn>> GetListCategories();
         Task<(IEnumerable<Cl_ProductForList>, int)> GetProductsByCateId(int id, FilterModel feature_hash);
+        
  
     }
 }

@@ -50,10 +50,7 @@ namespace WebNongNghiep.Services
 
             if (product == null)
                 return null;
-            return product;
-
-
-           
+            return product;         
         }
 
         public async Task<ProductForDetail> GetProductDetail(int id)

@@ -26,6 +26,10 @@ namespace WebNongNghiep.Client.ModelView.ProductView
 
         public float Weight { get; set; }
 
+        public string ProductDetails { get; set; }
+
+        public string Description { get; set; }
+
         public ICollection<PhotoForDetail> Photos { get; set; }
     }
 }

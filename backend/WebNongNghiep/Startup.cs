@@ -43,6 +43,8 @@ namespace WebNongNghiep
             //CLient service scoped
             services.AddScoped<IClientAuthServices, ClientAuthServices>();
             services.AddScoped<IClientCategoryServices, ClientCategoryServices>();
+            services.AddScoped<IClientGetFilterParamsServices, ClientGetFilterParamsServices>();
+            services.AddScoped<IClientProductServices, ClientProductServices>();
             //
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddRoles<IdentityRole>()

@@ -1,39 +1,28 @@
-﻿using Fop;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebNongNghiep.Client.InterfaceService;
-using WebNongNghiep.Client.ModelView.CategoryView;
 using WebNongNghiep.Client.ModelView.ProductView;
 using WebNongNghiep.Database;
 using WebNongNghiep.Helper.SortFilterPaging;
 
 namespace WebNongNghiep.Client.Services
 {
-    public class ClientCategoryServices : IClientCategoryServices
+    public class ClientProductServices : IClientProductServices
     {
-        private MasterData _db;
-        public ClientCategoryServices(MasterData db)
+        MasterData _db;
+        public ClientProductServices(MasterData db)
         {
             _db = db;
         }
-        public async Task<IEnumerable<Cl_CategoryToReturn>> GetListCategories()
+        public async Task<(IEnumerable<Cl_ProductForList>, int)> GetProducts(FilterModel features_hash)
         {
-            var listCategories = _db.Categories.Select(p => new Cl_CategoryToReturn
-            {
-                CategoryId = p.CategoryId,
-                CategoryName = p.CategoryName
-            });
-            return await listCategories.ToListAsync();
-        }
-
-        public async Task<(IEnumerable<Cl_ProductForList>, int)> GetProductsByCateId(int cateId, FilterModel features_hash)
-        {
-
             SearchParameters seacrhParameters = new SearchParameters();
             string[] ListQuery;
+            //Lấy danh sách sản phẩm (services) 
+            //Nếu có filter và search
             if (features_hash.filter != null)
             {
                 ListQuery = features_hash.filter.Split('_');
@@ -86,11 +75,6 @@ namespace WebNongNghiep.Client.Services
                             break;
                     }
                 }
-
-
-
-
-
                 var searchQuery = new SearchBuilder().
                 SetSearchTerm(seacrhParameters.SearchTerm).//1
                 SetCompany(seacrhParameters.Company).//2
@@ -100,14 +84,14 @@ namespace WebNongNghiep.Client.Services
                 SetWeight(seacrhParameters.Weight).
                 SetSortBy(seacrhParameters.SortBy)//15
 
-                .BuildProductxCateid(cateId, _db, features_hash);
+                .BuildProducts(_db, features_hash);
                 return (searchQuery.Item1, searchQuery.Item2);
             }
-
+            //nếu không có filter và search mặc định sẽ chỉ phân trang và chỉ có thể sort
             else
             {
-                var countProductsByCateId = _db.Products.Where(p => p.CategoryId == cateId).Count();
-                var productsByCateId = _db.Products.Include(p => p.Category).Where(p => p.CategoryId == cateId)
+                var countProductsByCateId = _db.Products.Count();
+                var productsByCateId = _db.Products.Include(p => p.Category)
                 .Select(p => new Cl_ProductForList
                 {
                     Id = p.Id,
@@ -125,6 +109,28 @@ namespace WebNongNghiep.Client.Services
 
         }
 
+  
 
+
+    public async Task<IEnumerable<Cl_ProductForList>> GetProductsPopular()
+        {
+            var productsPopular =  _db.Products.Take(12).Select(p => new Cl_ProductForList
+            {
+                Id = p.Id,
+                ProductName = p.ProductName,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category.CategoryName,
+                Price = (int)p.Price,
+                Company = p.Company,
+                Weight = p.Weight,
+                PhotoUrl = p.Photos.First().Url,
+            });
+            return productsPopular;
+        }
+
+        public async Task<Cl_ProductForList> ProductDetail(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
