@@ -46,10 +46,9 @@ namespace WebNongNghiep
             services.AddScoped<IClientGetFilterParamsServices, ClientGetFilterParamsServices>();
             services.AddScoped<IClientProductServices, ClientProductServices>();
             //
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<MasterData>();
-
+            services.AddIdentity<User,IdentityRole>()             
+                .AddEntityFrameworkStores<MasterData>()           
+                .AddDefaultTokenProviders();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => { options.SlidingExpiration = true; options.ExpireTimeSpan = new TimeSpan(48, 0, 0); });
 
             services.AddControllers();

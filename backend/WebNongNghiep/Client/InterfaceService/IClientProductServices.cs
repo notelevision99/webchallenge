@@ -10,7 +10,7 @@ namespace WebNongNghiep.Client.InterfaceService
     public interface IClientProductServices
     {
         Task<IEnumerable<Cl_ProductForList>> GetProductsPopular();
-        Task<Cl_ProductForList> ProductDetail(int id);
+        Task<(Cl_ProductForList, IEnumerable<Cl_ProductForList>)> GetProductDetails(string urlSeo);
         Task<(IEnumerable<Cl_ProductForList>, int)> GetProducts(FilterModel features_hash);
 
       

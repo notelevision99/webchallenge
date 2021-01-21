@@ -105,8 +105,6 @@ namespace WebNongNghiep.Client.Services
                 });
                 return (productsByCateId, countProductsByCateId);
             }
-
-
         }
 
   
@@ -127,10 +125,45 @@ namespace WebNongNghiep.Client.Services
             });
             return productsPopular;
         }
-
-        public async Task<Cl_ProductForList> ProductDetail(int id)
-        {
-            throw new NotImplementedException();
+        //Get Product By CategoryId and Product Relate
+        public async Task<(Cl_ProductForList,IEnumerable<Cl_ProductForList>)> GetProductDetails(string urlSeo)
+         {          
+            var productDetails = await _db.Products
+                .Include(p => p.Category)
+                .Include(p => p.Photos)
+                .Where(p => p.UrlSeo == urlSeo).FirstOrDefaultAsync();
+      
+            var productToReturn = new Cl_ProductForList
+            {
+                Id = productDetails.Id,
+                ProductName = productDetails.ProductName,
+                CategoryId = productDetails.CategoryId,
+                CategoryName = productDetails.Category.CategoryName,
+                Price = (int)productDetails.Price,
+                Company = productDetails.Company,
+                Weight = productDetails.Weight,
+                Description = productDetails.Description,
+                ProductDetails = productDetails.ProductDetails,
+                PhotoUrl = productDetails.Photos.First().Url
+            };
+            var productsRelated = _db.Products.Include(p => p.Category).Where(p => p.CategoryId == productDetails.CategoryId)
+                .Select(p => new Cl_ProductForList
+                {
+                    Id = p.Id,
+                    ProductName = p.ProductName,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.CategoryName,
+                    Price = (int)p.Price,
+                    Company = p.Company,
+                    Weight = p.Weight,
+                    Description = p.Description,
+                    ProductDetails = p.ProductDetails,
+                    PhotoUrl = p.Photos.First().Url
+                }).Take(12).ToList();
+            
+            
+            
+            return (productToReturn, productsRelated);
         }
     }
 }

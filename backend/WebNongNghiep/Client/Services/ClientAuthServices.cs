@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 using WebNongNghiep.Client.InterfaceService;
 using WebNongNghiep.Client.ModelView;
+using WebNongNghiep.Database;
 using WebNongNghiep.ModelView;
 
 namespace WebNongNghiep.Client.Services
 {
     public class ClientAuthServices : IClientAuthServices
     {
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public ClientAuthServices(SignInManager<IdentityUser> signInManager,
-                        UserManager<IdentityUser> userManager,
+        public ClientAuthServices(SignInManager<User> signInManager,
+                        UserManager<User> userManager,
                         RoleManager<IdentityRole> roleManager)
         {
             this.signInManager = signInManager;
@@ -27,7 +28,7 @@ namespace WebNongNghiep.Client.Services
         }
         public async Task<Cl_UserToReturn> Register(Cl_UserDetails userDto)
         {
-            var identityUser = new IdentityUser() { UserName = userDto.UserName, Email = userDto.Email };
+            var identityUser = new User() { UserName = userDto.UserName, Email = userDto.Email };
 
             bool checkRoleUser = await roleManager.RoleExistsAsync("User");
             if (!checkRoleUser)

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Net.Http.Headers;
 using WebNongNghiep.Admin.ModelView.UserView;
+using WebNongNghiep.Database;
 using WebNongNghiep.InterfaceService;
 using WebNongNghiep.ModelView;
 using WebNongNghiep.ModelView.UserView;
@@ -19,45 +20,45 @@ namespace WebNongNghiep.Controllers
     [Route("/admin/api/auth")]
     public class AuthController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<User> userManager;
         private readonly IAuthServices _authServices;
-        public AuthController(IAuthServices authServices, UserManager<IdentityUser> userManager)
+        public AuthController(IAuthServices authServices, UserManager<User> userManager)
         {
             _authServices = authServices;
             this.userManager = userManager;
         }
-        [HttpPost]
-        [Route("Register")]
-        public async Task<IActionResult> Register([FromBody] UserDetails userDetails)
-        {
-            try
-            {
-                if (userDetails == null || userDetails.UserName == null
-                || userDetails.Email == null || userDetails.Password == null)
-                {
-                    return new BadRequestObjectResult(new { Message = "Đăng kí thất bại" });
-                }
-                var registerUser = await _authServices.Register(userDetails);
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                var user = new UserDetails
-                {
-                    UserName = registerUser.UserName,
-                    Email = registerUser.Email,
-                    Message = registerUser.Message,
-                    PhoneNumber = registerUser.PhoneNumber
-                };
-                return Ok(user);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message.ToString());
-            }
+        //[HttpPost]
+        //[Route("Register")]
+        //public async Task<IActionResult> Register([FromBody] UserDetails userDetails)
+        //{
+        //    try
+        //    {
+        //        if (userDetails == null || userDetails.UserName == null
+        //        || userDetails.Email == null || userDetails.Password == null)
+        //        {
+        //            return new BadRequestObjectResult(new { Message = "Đăng kí thất bại" });
+        //        }
+        //        var registerUser = await _authServices.Register(userDetails);
+        //        if (!ModelState.IsValid)
+        //        {
+        //            return BadRequest(ModelState);
+        //        }
+        //        var user = new UserDetails
+        //        {
+        //            UserName = registerUser.UserName,
+        //            Email = registerUser.Email,
+        //            Message = registerUser.Message,
+        //            PhoneNumber = registerUser.PhoneNumber
+        //        };
+        //        return Ok(user);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return BadRequest(ex.Message.ToString());
+        //    }
             
 
-        }
+        //}
 
         [HttpPost]
         [Route("Login")]
@@ -108,7 +109,11 @@ namespace WebNongNghiep.Controllers
 
                 var userToReturn = new UserToReturn
                 {
+                    Id = identityUser.Id,
                     UserName = identityUser.UserName,
+                    Address = identityUser.Address,
+                    PhoneNumber = identityUser.PhoneNumber,
+                    Email = identityUser.Email,
                     Roles = roles[0],
                     Message = "Đăng nhập thành công"
 
@@ -121,6 +126,8 @@ namespace WebNongNghiep.Controllers
                 return BadRequest(ex.Message.ToString());
             }
         }   
+
+        
 
         [HttpPost]
         [Route("Logout")]

@@ -32,39 +32,63 @@ namespace WebNongNghiep.Controllers
         
         public async Task<IActionResult> AddPhotoForProduct(int productId, PhotoForCreation photoDto)
         {
-            var product = await  _productServices.GetProductForUpdate(productId);
+            try
+            {
+                var product = await _productServices.GetProductForUpdate(productId);
 
-            if (product == null)
-                return BadRequest("Could not find user");
+                if (product == null)
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy user" });
+                var photoForReturn = await _photoService.AddPhotoForProduct(productId, photoDto);
+                if (photoForReturn == null)
+                    return new BadRequestObjectResult(new { Message = "Tải hình ảnh lên không thành công" });
+                return Ok(photoForReturn);
+            }
+            catch (Exception ex)
+            {
 
-
-
-
-            var photoForReturn = await _photoService.AddPhotoForProduct(productId, photoDto);
-            if (photoForReturn == null)
-                return BadRequest("Photo upload failed.");
-
-            return Ok(photoForReturn) ; 
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+            
         }
 
         [HttpGet("{id}")]
         public IActionResult GetPhoto(int id)
         {
-            var photo = _photoService.GetPhoto(id);
+            try
+            {
+                var photo = _photoService.GetPhoto(id);
+                if (photo == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy hình ảnh" });
+                }
+                return Ok(photo);
+            }
+            catch (Exception ex)
+            {
 
-            return Ok(photo);
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+           
         }
         [HttpDelete("{id}")]
       
-        public async Task<IActionResult> DeletePhoto(int id)
-        
+        public async Task<IActionResult> DeletePhoto(int id)     
         {
-            var photoToDelete = await _photoService.DeletePhoto(id);
-            if(photoToDelete == null)
+            try
             {
-                return BadRequest("Xóa thất bại");
+                var photoToDelete = await _photoService.DeletePhoto(id);
+                if (photoToDelete == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy sản phẩm để xóa" });
+                }
+                return Ok();
             }
-            return Ok();
+            catch (Exception ex)
+            {
+
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+            
         }
     }
 }

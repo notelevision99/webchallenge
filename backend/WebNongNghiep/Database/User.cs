@@ -8,7 +8,6 @@ namespace WebNongNghiep.Database
 {
     public class User : IdentityUser
     {
-        public string Address { get; set; }
-        
+        public string Address { get; set; }    
     }
 }

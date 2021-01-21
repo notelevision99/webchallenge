@@ -35,52 +35,101 @@ namespace WebNongNghiep.Controllers
         [HttpGet]       
         public async Task<IActionResult> GetListProducts([FromQuery] FopQuery request)
         {
-            var fopRequest = FopExpressionBuilder<ProductForList>.Build(request.Filter, request.Order, request.PageNumber, request.PageSize);
+            try
+            {
+                var fopRequest = FopExpressionBuilder<ProductForList>.Build(request.Filter, request.Order, request.PageNumber, request.PageSize);
 
-            var (productToReturn,totalCount) = await _productServices.GetListProduct(fopRequest);
-            var response = new PagedResult<IEnumerable<ProductForList>>((productToReturn),totalCount, request.PageNumber, request.PageSize); ;
-            return Ok(response);
+                var (productToReturn, totalCount) = await _productServices.GetListProduct(fopRequest);
+                var response = new PagedResult<IEnumerable<ProductForList>>((productToReturn), totalCount, request.PageNumber, request.PageSize); ;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+            
         }
         
         // GET: api/<ProductsController>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
-            var productToReturn = await _productServices.GetProductDetail(id);
-            if (productToReturn == null)
+            try
             {
-                return BadRequest("Couldn't find product");
+                var productToReturn = await _productServices.GetProductDetail(id);
+                if (productToReturn == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy sản phẩm" });
+                   
+                }
+                return Ok(productToReturn);
             }
-            return Ok(productToReturn);
+            catch (Exception ex)
+            {
+
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() }); 
+            }
+           
         }
         
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductForCreation productDto)
         {
-            var product = await _productServices.CreateProduct(productDto);
-            if (product == null)
+            try
             {
-                return BadRequest("Create product failed");
+                var product = await _productServices.CreateProduct(productDto);
+                if (product == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Tạo sản phẩm thất bại" });
+
+                }
+                return Ok(product);
             }
-            return Ok(product);
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+            
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, ProductForCreation productDto)
         {
-            var productToReturn = await _productServices.UpdateProduct(id, productDto);
-            return Ok(productToReturn);
+            try
+            {
+                var productToReturn = await _productServices.UpdateProduct(id, productDto);
+                if (productToReturn == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Có lỗi khi cập nhật sản phẩm" });
+                }
+                return Ok(productToReturn);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+            
         }
       
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var productToDetele = await _productServices.DeleteProduct(id);
-            if(productToDetele != null)
+            try
             {
+                var productToDetele = await _productServices.DeleteProduct(id);
+                if (productToDetele == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy sản phẩm để xóa" });
+                }
                 return Ok("Xóa thành công!");
             }
-            return BadRequest("Couldn't find product");
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+         
+         
         }
     }
 }

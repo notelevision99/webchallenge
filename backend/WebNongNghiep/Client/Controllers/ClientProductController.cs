@@ -36,5 +36,41 @@ namespace WebNongNghiep.Client.Controllers
                 return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
             }
         }
+        [HttpGet("getproductspopular")]
+        public async Task<IActionResult> GetProductsPopular()
+        {
+            try
+            {
+                var products = await _servicesProduct.GetProductsPopular();
+                if(products == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy sản phẩm" });
+                }
+                return Ok(products);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpGet("{urlSeo}")]
+        public async Task<IActionResult> GetProductDetails(string urlSeo)
+        {
+            try
+            {
+                var result = await _servicesProduct.GetProductDetails(urlSeo);
+                if(result == (null, null))
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy sản phẩm" });                 
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+        }
     }
 }

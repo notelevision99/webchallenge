@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using WebNongNghiep.Client.InterfaceService;
 using WebNongNghiep.Client.ModelView;
-
+using WebNongNghiep.Database;
 using WebNongNghiep.ModelView.UserView;
 
 namespace WebNongNghiep.Client.Controllers
@@ -18,9 +18,9 @@ namespace WebNongNghiep.Client.Controllers
     [Route("/api/auth")]
     public class ClientAuthController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<User> userManager;
         private readonly IClientAuthServices _authServices;
-        public ClientAuthController(IClientAuthServices authServices, UserManager<IdentityUser> userManager)
+        public ClientAuthController(IClientAuthServices authServices, UserManager<User> userManager)
         {
             _authServices = authServices;
             this.userManager = userManager;

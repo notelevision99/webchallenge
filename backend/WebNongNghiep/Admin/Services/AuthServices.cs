@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using WebNongNghiep.Admin.ModelView.UserView;
+using WebNongNghiep.Database;
 using WebNongNghiep.InterfaceService;
 using WebNongNghiep.ModelView;
 using WebNongNghiep.ModelView.UserView;
@@ -17,12 +18,12 @@ namespace WebNongNghiep.Services
 {
     public class AuthServices : IAuthServices
     {
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public AuthServices(SignInManager<IdentityUser> signInManager,
-                        UserManager<IdentityUser> userManager,
+        public AuthServices(SignInManager<User> signInManager,
+                        UserManager<User> userManager,
                         RoleManager<IdentityRole> roleManager){       
             this.signInManager = signInManager;
             this.userManager = userManager;
@@ -30,7 +31,7 @@ namespace WebNongNghiep.Services
         }
         public async Task<UserToReturn> Register(UserDetails userDto)
         {
-            var identityUser = new IdentityUser() { UserName = userDto.UserName, Email = userDto.Email, PhoneNumber = userDto.PhoneNumber };
+            var identityUser = new User() { UserName = userDto.UserName, Email = userDto.Email, PhoneNumber = userDto.PhoneNumber };
             bool checkRoleUser = await roleManager.RoleExistsAsync("Admin");
             if (!checkRoleUser)
             {
@@ -59,9 +60,6 @@ namespace WebNongNghiep.Services
                 Roles = "Admin",
                 Message = "Đăng kí thành công"
             };
-
-
-
         }
         public async Task<IEnumerable<UserToReturn>> GetListAdmins()
         {
@@ -87,6 +85,51 @@ namespace WebNongNghiep.Services
             }
             return userDtos;
         }
+
+        public async Task<UserToReturn> GetUserById(string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            return new UserToReturn
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address,
+            };
+
+        }
+
+        public async Task<string> UpdateUser(string userId, UserDetails userViewInfo)
+        {
+            var userForUpdate = await userManager.FindByIdAsync(userId);
+
+            if(userViewInfo.UserName != null)
+            {
+                userForUpdate.UserName = userViewInfo.UserName;
+            }
+            if(userViewInfo.Email != null)
+            {
+                userForUpdate.Email = userViewInfo.Email;
+            }
+            if(userViewInfo.PhoneNumber != null)
+            {
+                userForUpdate.PhoneNumber = userViewInfo.PhoneNumber;
+            }
+            if(userViewInfo.Address != null)
+            {
+                userForUpdate.Address = userViewInfo.Address;
+            }
+      
+                 
+            var result = await userManager.UpdateAsync(userForUpdate);
+            if(!result.Succeeded)
+            {
+                return "Cập nhật không thành công!";
+            }
+            return "Cập nhật thành công";
+        }
+        
 
         public async Task<string> DeleteUser(string id)
         {

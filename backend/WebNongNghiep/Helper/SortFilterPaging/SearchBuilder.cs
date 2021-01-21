@@ -48,7 +48,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
         }
 
         //build for getproductsbycateid
-        public (IEnumerable<Cl_ProductForList>, int) BuildProductxCateid(int cateId, MasterData entities, FilterModel filterModel)
+        public (IEnumerable<Cl_ProductForList>, int) BuildProductxCateid(string cateName, MasterData entities, FilterModel filterModel)
         {
             //if filter         
             var predicate = PredicateExtensions.PredicateExtensions.Begin<Product>();
@@ -86,7 +86,8 @@ namespace WebNongNghiep.Helper.SortFilterPaging
             if (predicate.Body.ToString() != "False")
             {
                 var recordsByCateId = entities.Products
-                    .Where(p => p.CategoryId == cateId);
+                    .Include(p => p.Category)              
+                    .Where(p => p.Category.CategoryName == cateName);
 
                 var countRecordsResult = recordsByCateId.Where(predicate).Count();
 
@@ -114,7 +115,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                     case SortCriteria.PriceLowToHigh:
                         recordsResult = recordsResultToSort.OrderBy(p => p.Price)
                                               .Skip((filterModel.PageNumber - 1) * filterModel.PageSize)
-                                                .Take(filterModel.PageSize)
+                                               .Take(filterModel.PageSize)
                                                .Select(p => new Cl_ProductForList
                                                {
                                                    Id = p.Id,
@@ -154,7 +155,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
             else
             {
                 var recordsByCateId = entities.Products
-                    .Where(p => p.CategoryId == cateId);
+                    .Where(p => p.CategoryName == cateName);
 
                 var countRecordsResult = recordsByCateId.Count();
 

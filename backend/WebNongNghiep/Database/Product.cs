@@ -34,6 +34,9 @@ namespace WebNongNghiep.Database
         public string Company { get; set; }
 
         public float Weight { get; set; }
+        [Required]
+        [StringLength(5000)]
+        public string UrlSeo { get; set; }
 
         public virtual Category Category { get; set; }
 

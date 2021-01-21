@@ -14,5 +14,7 @@ namespace WebNongNghiep.InterfaceService
         Task<UserToReturn> Register(UserDetails userDetailsDto);
         Task<string> DeleteUser(string id);
         Task<IEnumerable<UserToReturn>> GetListAdmins();
+        Task<UserToReturn> GetUserById(string userId);
+        Task<string> UpdateUser(string userId, UserDetails userToUpdate);
     }
 }

@@ -29,49 +29,105 @@ namespace WebNongNghiep.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryForCreation cateDto)
         {
-            var category = await _categoryServices.CreateCategory(cateDto);
-            if (category == null)
+            try
             {
-                return BadRequest("Create category failed");
+                var category = await _categoryServices.CreateCategory(cateDto);
+                if (category == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Tạo danh mục sản phẩm không thành công" });
+                }
+                return Ok(category);
             }
-            return Ok(category);
+            catch (Exception ex)
+            {
+
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+
         }
         [HttpGet]
         public async Task<IActionResult> GetListCategories()
         {
-            var listCategories = await _categoryServices.GetListCategories();
-            return Ok(listCategories);
+            try
+            {
+                var listCategories = await _categoryServices.GetListCategories();
+                if (listCategories == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Có lỗi khi tìm danh mục sản phẩm" });
+                }
+                return Ok(listCategories);
+            }
+            catch (Exception ex)
+            {
+
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
-            var category = await _categoryServices.GetCategoryById(id);
-            return Ok(category);
+            try
+            {
+                var category = await _categoryServices.GetCategoryById(id);
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+
         }
 
         [HttpGet("getproductsbycateid/{cateId}")]
         public async Task<IActionResult> GetListProductByCateId(int cateId, [FromQuery] FopQuery request)
         {
-            var fopRequest = FopExpressionBuilder<ProductForList>.Build(request.Filter, request.Order, request.PageNumber, request.PageSize);
-            var (listProductsByCateId, totalCount) = await _categoryServices.GetListProductsByCateId(cateId, fopRequest);
-            var response = new PagedResult<IEnumerable<ProductForList>>((listProductsByCateId), totalCount, request.PageNumber, request.PageSize); ;
-            return Ok(response);
+            try
+            {
+                var fopRequest = FopExpressionBuilder<ProductForList>.Build(request.Filter, request.Order, request.PageNumber, request.PageSize);
+                var (listProductsByCateId, totalCount) = await _categoryServices.GetListProductsByCateId(cateId, fopRequest);
+                var response = new PagedResult<IEnumerable<ProductForList>>((listProductsByCateId), totalCount, request.PageNumber, request.PageSize); ;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, CategoryForCreation cateDto)
         {
-            var categoryToUpdate = await _categoryServices.UpdateCategory(id,cateDto);
-            return Ok(categoryToUpdate);
+            try
+            {
+                var categoryToUpdate = await _categoryServices.UpdateCategory(id, cateDto);
+                return Ok(categoryToUpdate);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+
+            }
+
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            var categoryToUpdate = await _categoryServices.DeleteCategory(id);
-            if(categoryToUpdate != null)
+            try
             {
-                return Ok("Xóa thành công");
+                var categoryToUpdate = await _categoryServices.DeleteCategory(id);
+                if (categoryToUpdate != null)
+                {
+                    return Ok("Xóa thành công");
+                }
+                return BadRequest("Failed to delete category");
             }
-            return BadRequest("Failed to delete category");
+            catch (Exception ex)
+            {
+
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+
         }
 
     }

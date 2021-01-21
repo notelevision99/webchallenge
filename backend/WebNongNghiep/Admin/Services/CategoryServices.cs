@@ -21,17 +21,26 @@ namespace WebNongNghiep.Services
 
         public async Task<CategoryForReturn> CreateCategory(CategoryForCreation cateDto)
         {
-            Category category = new Category
-            {            
-                CategoryName = cateDto.CategoryName
-            };
-            _db.Categories.Add(category);
-            await _db.SaveChangesAsync();
-            return new CategoryForReturn
+            var checkcategoryExist = await _db.Categories.Where(p => p.CategoryName == cateDto.CategoryName).FirstOrDefaultAsync();
+            if(checkcategoryExist == null)
             {
-                CategoryId = category.CategoryId,
-                CategoryName = category.CategoryName
-            };
+                Category category = new Category
+                {
+                    CategoryName = cateDto.CategoryName
+                };
+                _db.Categories.Add(category);
+                await _db.SaveChangesAsync();
+                return new CategoryForReturn
+                {
+                    CategoryId = category.CategoryId,
+                    CategoryName = category.CategoryName
+                };
+            }
+            else
+            {
+                return null;
+            }
+           
         }
 
         public async Task<CategoryForReturn> GetCategoryById(int cateId)
