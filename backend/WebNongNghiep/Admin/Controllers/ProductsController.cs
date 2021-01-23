@@ -99,11 +99,11 @@ namespace WebNongNghiep.Controllers
             try
             {
                 var productToReturn = await _productServices.UpdateProduct(id, productDto);
-                if (productToReturn == null)
+                if (productToReturn == 0)
                 {
                     return new BadRequestObjectResult(new { Message = "Có lỗi khi cập nhật sản phẩm" });
                 }
-                return Ok(productToReturn);
+                return Ok(new { Message = "Cập nhật sản phẩm thành công!"});
             }
             catch (Exception ex)
             {

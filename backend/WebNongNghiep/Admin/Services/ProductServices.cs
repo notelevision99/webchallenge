@@ -141,7 +141,7 @@ namespace WebNongNghiep.Services
             };
 
         }
-        public async Task<string> UpdateProduct(int id, ProductForCreation productDto)
+        public async Task<int> UpdateProduct(int id, ProductForCreation productDto)
         {
             
             var product = await _db.Products
@@ -149,7 +149,7 @@ namespace WebNongNghiep.Services
                    .FirstOrDefaultAsync(u => u.Id == id);              // 1
 
             if (product == null)
-                return null;
+                return 0;
             if (productDto != null)
             {
                 product.ProductName = productDto.ProductName;
@@ -161,7 +161,7 @@ namespace WebNongNghiep.Services
                 _db.Products.Update(product);
                 await _db.SaveChangesAsync();
             }
-            return "Update thành công!";
+            return 1;
         }
         public async Task<string> DeleteProduct(int id)
         {

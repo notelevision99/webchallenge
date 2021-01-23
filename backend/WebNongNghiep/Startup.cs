@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Configuration;
 using System.Security.Claims;
+using WebNongNghiep.Admin.InterfaceService;
+using WebNongNghiep.Admin.Services;
 using WebNongNghiep.Client.InterfaceService;
 using WebNongNghiep.Client.Services;
 using WebNongNghiep.Database;
@@ -40,6 +42,7 @@ namespace WebNongNghiep
             services.AddScoped<IProductServices, ProductServices>();
             services.AddScoped<ICategoryServices, CategoryServices>();
             services.AddScoped<IAuthServices, AuthServices>();
+            services.AddScoped<IBannerServices, BannerServices>();
             //CLient service scoped
             services.AddScoped<IClientAuthServices, ClientAuthServices>();
             services.AddScoped<IClientCategoryServices, ClientCategoryServices>();

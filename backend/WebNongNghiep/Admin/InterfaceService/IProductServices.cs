@@ -14,7 +14,7 @@ namespace WebNongNghiep.InterfaceService
         Task<Product> GetProductForUpdate(int id);
         Task<ProductForDetail> CreateProduct(ProductForCreation productDto);
         Task<ProductForDetail> GetProductDetail(int id);
-        Task<string> UpdateProduct(int id, ProductForCreation productDto);
+        Task<int> UpdateProduct(int id, ProductForCreation productDto);
         Task<(IEnumerable<ProductForList>, int)> GetListProduct(IFopRequest request);
         Task<string> DeleteProduct(int id);
 

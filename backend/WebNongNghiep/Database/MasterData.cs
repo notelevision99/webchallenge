@@ -17,7 +17,7 @@ namespace WebNongNghiep.Database
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Photo> Photos { get; set; }
-
+        public DbSet<Banner> Banners { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

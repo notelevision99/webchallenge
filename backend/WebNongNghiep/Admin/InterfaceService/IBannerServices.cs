@@ -8,6 +8,8 @@ namespace WebNongNghiep.Admin.InterfaceService
 {
     public interface IBannerServices
     {
-        Task<string> UploadBanner(int orderId, BannerToUpLoad bannerPhoto); 
+        Task<int> UploadBanner(int orderId, BannerToUpLoad bannerPhoto);
+        Task<IEnumerable<BannerForList>> GetBanners();
+        Task<int> DeleteBanner(int id);
     }
 }
