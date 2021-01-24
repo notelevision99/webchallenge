@@ -33,7 +33,9 @@ namespace WebNongNghiep.Services
                 CategoryId = p.CategoryId,
                 CategoryName = p.Category.CategoryName,
                 Price =(int)p.Price,
-                PhotoUrl = p.Photos.First().Url,   
+                PhotoUrl = p.Photos.First().Url,  
+                Weight = p.Weight,
+                Company = p.Company,
                 TotalCount = totalCountProduct
             }).ApplyFop(request);
           
@@ -85,11 +87,12 @@ namespace WebNongNghiep.Services
                     ProductName = product.ProductName,
                     CategoryId = product.CategoryId,
                     CategoryName = product.Category.CategoryName,
-                    Price = product.Price,
-                    PhotoUrl = "",
+                    Price = product.Price,                  
                     Description = product.Description,
                     ProductDetails = product.ProductDetails,
-                    Photos = photosToReturn
+                    Weight = product.Weight,
+                    Company = product.Company,
+                    Photos = photosToReturn,
                 };
                 return productForReturn;
             }
@@ -100,8 +103,7 @@ namespace WebNongNghiep.Services
                 CategoryId = product.CategoryId,
                 CategoryName = product.Category.CategoryName,
                 Price = product.Price,
-                //PhotoUrl = product.Photos.FirstOrDefault(p => p.IsMain).Url,
-                PhotoUrl = "asd",
+                //PhotoUrl = product.Photos.FirstOrDefault(p => p.IsMain).Url,               
                 Description = product.Description,
                 ProductDetails = product.ProductDetails,
                 Photos = null
@@ -120,7 +122,9 @@ namespace WebNongNghiep.Services
                 CategoryId = productDto.CategoryId,
                 PhotoUrl = productDto.PhotoUrl,
                 Description = productDto.Description,
-                ProductDetails = productDto.ProductDetails
+                ProductDetails = productDto.ProductDetails,
+                Weight = productDto.Weight,
+                Company = productDto.Company
 
             };
             _db.Add(productToReturn);
@@ -134,6 +138,8 @@ namespace WebNongNghiep.Services
                 Price = productToReturn.Price,
                 Description = productToReturn.Description,
                 ProductDetails = productToReturn.ProductDetails,
+                Weight = productToReturn.Weight,
+                Company = productToReturn.Company,
                 Photos = null
                 
                

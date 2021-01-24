@@ -389,7 +389,6 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                 }
                 return (recordsResult, countRecordsResult);
             }
-
         }
     }
 }

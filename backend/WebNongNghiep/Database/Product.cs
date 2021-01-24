@@ -42,6 +42,8 @@ namespace WebNongNghiep.Database
 
         public virtual ICollection<Photo> Photos { get; set; }
 
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
         public Product()
         {
             Photos = new Collection<Photo>();

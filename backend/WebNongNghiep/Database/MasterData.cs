@@ -18,6 +18,8 @@ namespace WebNongNghiep.Database
         public DbSet<Category> Categories { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Banner> Banners { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

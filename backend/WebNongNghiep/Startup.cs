@@ -43,11 +43,13 @@ namespace WebNongNghiep
             services.AddScoped<ICategoryServices, CategoryServices>();
             services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IBannerServices, BannerServices>();
+            services.AddScoped<IOrderServices, OrderServices>();
             //CLient service scoped
             services.AddScoped<IClientAuthServices, ClientAuthServices>();
             services.AddScoped<IClientCategoryServices, ClientCategoryServices>();
             services.AddScoped<IClientGetFilterParamsServices, ClientGetFilterParamsServices>();
             services.AddScoped<IClientProductServices, ClientProductServices>();
+            services.AddScoped<IClientOrderServices, ClientOrderServices>();
             //
             services.AddIdentity<User,IdentityRole>()             
                 .AddEntityFrameworkStores<MasterData>()           
