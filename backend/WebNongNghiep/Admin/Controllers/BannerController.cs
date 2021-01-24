@@ -39,7 +39,6 @@ namespace WebNongNghiep.Admin.Controllers
             }
             catch (Exception ex)
             {
-
                 return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
             }
             
