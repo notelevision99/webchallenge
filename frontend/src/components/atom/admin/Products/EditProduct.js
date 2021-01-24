@@ -191,7 +191,6 @@ export default class EditProduct extends React.Component {
             this.setState({
                 idProduct: res.data.id,
                 redirect: true,
-
             })
 
             if (this.state.selectedFile) {

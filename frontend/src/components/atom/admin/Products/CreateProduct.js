@@ -332,7 +332,7 @@ export default class CreateProduct extends React.Component {
                                                     <div className="input-group">
                                                         <div className="custom-file">
                                                             <label className="custom-file-label" htmlFor="exampleInputFile">
-                                                                Choose file
+                                                                Chọn hình ảnh
                                                         <input type="file" onChange={this.onFileChange} className="custom-file-input" id="exampleInputFile" multiple />
                                                             </label>
 
@@ -343,8 +343,7 @@ export default class CreateProduct extends React.Component {
                                                     {
                                                         <div className="List_nameImage">
                                                         {
-                                                            Object.keys(this.state.selectedFile).map((item) => {
-                                                                console.log("this.state.selectedFile[item].name:", this.state.selectedFile[item].name);
+                                                            Object.keys(this.state.selectedFile).map((item) => {                                           
                                                                 return (
                                                                     <div>
                                                                         <h2>Chi tiết hình ảnh đăng tải</h2>

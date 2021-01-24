@@ -16,6 +16,9 @@ import CreateProduct from './components/atom/admin/Products/CreateProduct';
 
 import EditProduct from './components/atom/admin/Products/EditProduct';
 import ProtectedRoute from "./helpers/admin/checkRolesAuth";
+import EditCurrentAdmin from './components/atom/admin/users/EditCurrentAdmin';
+import Banners from './components/atom/admin/banners/Banners';
+import CreateBanner from './components/atom/admin/banners/CreateBanner';
 
 
 export default class App extends Component {
@@ -58,13 +61,26 @@ export default class App extends Component {
 
           <ProtectedRoute
           exact
-            path="/listadmins"
+            path="/users"
             component={ListAdmins}
           />
 
           <ProtectedRoute
             path="/listadmins/create"
             component={CreateAdmin}
+          />
+          <ProtectedRoute          
+            path="/editusers/:id"
+            component={EditCurrentAdmin}
+          />
+          <ProtectedRoute
+          exact
+            path="/admin/banners"
+            component={Banners}
+          />
+          <ProtectedRoute
+            path="/admin/banners/create"
+            component={CreateBanner}
           />
         </Switch>
       </Router>

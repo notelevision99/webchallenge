@@ -208,7 +208,6 @@ class Product extends React.Component {
         }, () => this.componentDidMount())
 
     }
-
     /**
      * Handle Paging
      */
@@ -242,7 +241,7 @@ class Product extends React.Component {
             contentModal: name,
             idToDelete: id
         })
-        console.log("Cliecked")
+        
 
     }
 

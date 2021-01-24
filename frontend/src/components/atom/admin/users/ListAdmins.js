@@ -27,7 +27,7 @@ export default class ListAdmins extends React.Component {
         }
     }
     componentDidMount() {
-        const urlGetListAdmins = `${API_URL}/api/auth`
+        const urlGetListAdmins = `${API_URL}/api/users/admin`
         axios.get(urlGetListAdmins, { withCredentials: true })
             .then(res => {
                 this.setState({
@@ -50,7 +50,7 @@ export default class ListAdmins extends React.Component {
 
     onDeleleProd = () => {
         try {
-            const urlToDeleteProd = `${API_URL}/api/auth/${this.state.idToDelete}`
+            const urlToDeleteProd = `${API_URL}/api/users/${this.state.idToDelete}`
 
             axios.delete(urlToDeleteProd, { withCredentials: true })
                 .then(res => {
@@ -113,7 +113,7 @@ export default class ListAdmins extends React.Component {
                                                             <td>{record.phoneNumber}</td>
                                                             <td>{record.roles}</td>
                                                             <a>
-                                                                <i onClick={() => { this.showModal(record.userName, record.id) }} class="fas   fa-trash-alt"
+                                                                <i onClick={() => { this.showModal(record.userName, record.id) }} class="fas fa-trash-alt"
                                                                     data-target="#exampleModal" data-toggle="modal">
                                                                 </i>
                                                             </a>

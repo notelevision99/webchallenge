@@ -29,6 +29,7 @@ export default class Login extends React.Component {
     constructor(props){
         super(props)
         this.state = {
+            userId: '',
             userName: '',
             password: '',
             roles: '', 
@@ -61,19 +62,23 @@ export default class Login extends React.Component {
             userName: this.state.userName,
             password: this.state.password
         }
-        axios.post(url, loginInfo, {withCredentials: true}).then(res => {
+        axios.post(url, loginInfo,{withCredentials:true}).then(res => {
+            console.log(res.data)
             this.setState({
+                userId: res.data.id,
                 userName: res.data.userName,
                 roles: res.data.roles,               
-                redirect: true,  
-                        
+                redirect: true                 
             })
                       
+            
+        }).then(() =>{
             authControl.authenticate(this.state.roles);    
-            Cookies.set('usrCks',`${this.state.roles}`,{expires: 2})      
-
-        })      
-        
+            Cookies.set('usrCks',`${this.state.roles}`,{expires: 2})   
+            Cookies.set('Usr_N',`${this.state.userName}`,{expires:2})
+            Cookies.set('Usr_I',`${this.state.userId}`)   
+        })
+                  
        
     }
 
