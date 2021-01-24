@@ -45,8 +45,7 @@ export default class Banners extends React.Component {
             axios.delete(urlToDeleteBanner, { withCredentials: true })
                 .then(res => {
                     this.setState({
-                        messageSuccess: res.data.message,
-                        
+                        messageSuccess: res.data.message,                    
                     })
                 })               
                 .then(() => {               
