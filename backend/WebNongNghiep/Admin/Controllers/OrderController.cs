@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fop;
 using Fop.FopExpression;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebNongNghiep.Admin.InterfaceService;
 using WebNongNghiep.Admin.ModelView.OrderView;
@@ -12,6 +14,8 @@ using WebNongNghiep.Helper;
 namespace WebNongNghiep.Admin.Controllers
 {
     [Route("/admin/api/orders")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class OrderController : Controller
     {
@@ -79,6 +83,25 @@ namespace WebNongNghiep.Admin.Controllers
 
                 return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
             }
+        }
+        [HttpDelete("{orderId}")]
+        public async Task<IActionResult> DeleteOrder(int orderId)
+        {
+            try
+            {
+                var result = await _orderServices.DeleteOrder(orderId);
+                if (result == 0)
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy mã đơn hàng. Vui lòng thử lại" });
+                }
+                return Ok(new { Message = "Xóa đơn hàng thành công!" });
+            }
+            catch (Exception ex)
+            {
+
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+           
         }
     }
 }

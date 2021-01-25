@@ -89,7 +89,7 @@ namespace WebNongNghiep
             app.UseRouting();
 
             app.UseCors(options =>
-            options.WithOrigins("https://localhost:3000", "https://localhost:44310")
+            options.WithOrigins("https://localhost:3000")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .SetIsOriginAllowed(origin => true) // allow any origin
