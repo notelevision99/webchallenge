@@ -273,7 +273,6 @@ class Product extends React.Component {
                             <div className="col-12">
 
                                 <div className="card">
-
                                     <div className="card-header">
                                         <h3 className="card-title">Danh sách sản phẩm</h3>
                                     </div>

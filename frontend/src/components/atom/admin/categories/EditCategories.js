@@ -39,13 +39,13 @@ export default class EditCategories extends React.Component {
                 })
                 
             })
-        console.log(urlGetProductsByCateId)
+       
         return axios.get(urlGetProductsByCateId, { withCredentials: true })
             .then(res => {
                 this.setState({
                     productsByCateId: res.data.data,
                     totalItem: res.data.totalCount
-                },() => console.log(this.state.productsByCateId))
+                })
                 
             })
 

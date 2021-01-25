@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../../../helperComponent/modal';
 import { showToastSuccess } from '../../../../helpers/admin/toastNotify';
+
 export default class ListAdmins extends React.Component {
 
     constructor(props) {
@@ -121,7 +122,6 @@ export default class ListAdmins extends React.Component {
                                                                 this.state.showModal &&
                                                                 <Modal content={"Bạn có muốn xóa user:" + this.state.contentModal}
                                                                     title={"Xóa User" }
-
                                                                     submit={() => this.onDeleleProd()}
                                                                 />
                                                             }
