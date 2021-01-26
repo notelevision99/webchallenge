@@ -189,7 +189,7 @@ class Product extends React.Component {
                 orderByPriceParams: '&order=price;asc'
             }, () => {
                 this.componentDidMount();
-
+                
             })
         }
 
