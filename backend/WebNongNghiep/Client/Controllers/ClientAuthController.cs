@@ -93,6 +93,7 @@ namespace WebNongNghiep.Client.Controllers
                     new Claim(ClaimTypes.Email, identityUser.Email),
                     new Claim(ClaimTypes.Name, identityUser.UserName),
                     new Claim(ClaimTypes.Role, roles[0])
+
                 };
 
                 var claimsIdentity = new ClaimsIdentity(
