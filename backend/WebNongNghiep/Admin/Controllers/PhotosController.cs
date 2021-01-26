@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebNongNghiep.Admin.ModelView.PhotoView;
 using WebNongNghiep.InterfaceService;
 using WebNongNghiep.Models;
 
 namespace WebNongNghiep.Controllers
 {
     
-    [Route("/admin/api/products/{productId}/photos/")]
+    [Route("/admin/api")]
     //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     [Authorize(Roles = "Admin")]
@@ -28,7 +29,7 @@ namespace WebNongNghiep.Controllers
             _photoService = photoService;
         }
 
-        [HttpPost]
+        [HttpPost("products/{productId}/photos")]
         
         public async Task<IActionResult> AddPhotoForProduct(int productId, PhotoForCreation photoDto)
         {
@@ -50,8 +51,25 @@ namespace WebNongNghiep.Controllers
             }
             
         }
+        [HttpPost("blogs/{blogId}/photos")]
+        public async Task<IActionResult> AddPhotoForBlog(int blogId,PhotoBlogForCreation photoDto)
+        {
+            try
+            {
+                var result = await _photoService.AddPhotoForBlog(blogId, photoDto);
+                if(result == 0)
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy hình ảnh tải lên. Vui lòng kiểm tra lại!" });
+                }
+                return Ok(new { Message = "Đăng hình ảnh thành công!" });
+            }
+            catch (Exception ex)
+            {
 
-        [HttpGet("{id}")]
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+        }
+        [HttpGet("products/{productId}/photos/{id}")]
         public IActionResult GetPhoto(int id)
         {
             try
@@ -70,7 +88,7 @@ namespace WebNongNghiep.Controllers
             }
            
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("products/{productId}/photos/{id}")]
       
         public async Task<IActionResult> DeletePhoto(int id)     
         {

@@ -91,7 +91,8 @@ namespace WebNongNghiep.Client.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Email, identityUser.Email),
-                    new Claim(ClaimTypes.Name, identityUser.UserName)
+                    new Claim(ClaimTypes.Name, identityUser.UserName),
+                    new Claim(ClaimTypes.Role, roles[0])
                 };
 
                 var claimsIdentity = new ClaimsIdentity(
@@ -102,7 +103,11 @@ namespace WebNongNghiep.Client.Controllers
 
                 var userToReturn = new Cl_UserToReturn
                 {
+                    UserId = identityUser.Id,
                     UserName = identityUser.UserName,
+                    Address = identityUser.Address,
+                    PhoneNumber = identityUser.PhoneNumber,
+                    Email = identityUser.Email,
                     Roles = roles[0],
                     Message = "Đăng nhập thành công"
                 };
@@ -115,24 +120,7 @@ namespace WebNongNghiep.Client.Controllers
 
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetListUser()
-        {
-            try
-            {
-                var listAdminsReturn = await _authServices.GetListUsers();
-                if (listAdminsReturn == null)
-                {
-                    return NotFound();
-                }
-                return Ok(listAdminsReturn);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message.ToString());
-            }
-
-        }
+        
 
         [HttpPost]
         [Route("Logout")]

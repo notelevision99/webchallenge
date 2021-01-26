@@ -141,9 +141,7 @@ namespace WebNongNghiep.Services
                 Weight = productToReturn.Weight,
                 Company = productToReturn.Company,
                 Photos = null
-                
-               
-               
+            
             };
 
         }

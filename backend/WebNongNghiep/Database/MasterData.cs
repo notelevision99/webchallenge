@@ -20,6 +20,9 @@ namespace WebNongNghiep.Database
         public DbSet<Banner> Banners { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<CategoryBlog> CategoryBlogs { get; set; }
+        public DbSet<PhotoBlog> PhotoBlogs { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -28,7 +28,13 @@ namespace WebNongNghiep.Client.Services
         }
         public async Task<Cl_UserToReturn> Register(Cl_UserDetails userDto)
         {
-            var identityUser = new User() { UserName = userDto.UserName, Email = userDto.Email };
+            var identityUser = new User()
+            { 
+                UserName = userDto.UserName, 
+                Email = userDto.Email,
+                Address = userDto.Address,
+                PhoneNumber = userDto.PhoneNumber,
+            };
 
             bool checkRoleUser = await roleManager.RoleExistsAsync("User");
             if (!checkRoleUser)
@@ -56,6 +62,7 @@ namespace WebNongNghiep.Client.Services
                 Email = identityUser.Email,
                 Roles = "User",
                 Message = "Đăng kí thành công"
+
             };
         }
         public async Task<IEnumerable<Cl_UserToReturn>> GetListUsers()

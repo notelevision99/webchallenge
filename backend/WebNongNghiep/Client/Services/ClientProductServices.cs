@@ -159,10 +159,7 @@ namespace WebNongNghiep.Client.Services
                     Description = p.Description,
                     ProductDetails = p.ProductDetails,
                     PhotoUrl = p.Photos.First().Url
-                }).Take(12).ToList();
-            
-            
-            
+                }).Take(12).ToList();        
             return (productToReturn, productsRelated);
         }
     }

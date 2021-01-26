@@ -44,12 +44,15 @@ namespace WebNongNghiep
             services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IBannerServices, BannerServices>();
             services.AddScoped<IOrderServices, OrderServices>();
+            services.AddScoped<IBlogServices, BlogServices>();
+            services.AddScoped<ICategoryBlogServices, CategoryBlogServices>();
             //CLient service scoped
             services.AddScoped<IClientAuthServices, ClientAuthServices>();
             services.AddScoped<IClientCategoryServices, ClientCategoryServices>();
             services.AddScoped<IClientGetFilterParamsServices, ClientGetFilterParamsServices>();
             services.AddScoped<IClientProductServices, ClientProductServices>();
             services.AddScoped<IClientOrderServices, ClientOrderServices>();
+            services.AddScoped<IClientBlogServices, ClientBlogServices>();
             //
             services.AddIdentity<User,IdentityRole>()             
                 .AddEntityFrameworkStores<MasterData>()           

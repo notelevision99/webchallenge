@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebNongNghiep.Database
 {
-    public class Photo
+    public class PhotoBlog
     {
         [Key]
         public int Id { get; set; }
@@ -17,13 +17,12 @@ namespace WebNongNghiep.Database
 
         public DateTime DateAdded { get; set; }
 
-        public bool IsMain { get; set; }    
+        public bool IsMain { get; set; }
 
-        public int ProductId { get; set; }
-    
+        public int BlogId { get; set; }
+
         public string PublicId { get; set; }
 
-        public virtual Product Product { get; set; }
-
+        public virtual Blog Blog { get; set; }
     }
 }
