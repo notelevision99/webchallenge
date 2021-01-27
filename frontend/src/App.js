@@ -21,6 +21,7 @@ import Banners from './components/atom/admin/banners/Banners';
 import CreateBanner from './components/atom/admin/banners/CreateBanner';
 import Orders from './components/atom/admin/orders/Orders';
 import OrderDetails from './components/atom/admin/orders/OrderDetails';
+import CreateBlog from './components/atom/admin/blogs/CreateBlog';
 
 
 export default class App extends Component {
@@ -93,6 +94,10 @@ export default class App extends Component {
           <ProtectedRoute
             path="/admin/orders/:orderId"
             component={OrderDetails}
+          />
+          <ProtectedRoute
+          path = "/admin/blogs/create"
+          component={CreateBlog}
           />
         </Switch>
       </Router>

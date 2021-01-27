@@ -139,6 +139,18 @@ class Menu extends React.Component {
                                 </Link>
 
                             </li>
+                            <li className="nav-item">
+                                <Link to="/admin/blogs">
+                                    <a className="nav-link">
+                                        <i className="nav-icon fas fa-th" />
+                                        <p>
+                                            Quản lí bài đăng, tin tức
+                                </p>
+
+                                    </a>
+                                </Link>
+
+                            </li>
 
 
 

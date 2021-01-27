@@ -113,7 +113,7 @@ export default class CreateBanner extends React.Component {
                         <div className="container-fluid">
                             <div className="row mb-2">
                                 <div className="col-sm-6">
-                                    <h1>Quản lý banners</h1>
+                                    <h1>Thêm banner</h1>
                                 </div>
 
                             </div>
