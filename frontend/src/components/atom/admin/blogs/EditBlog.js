@@ -223,6 +223,7 @@ export default class EditBlog extends React.Component {
                         redirect: true
                     })
                 })
+                
                 .then(() => {
                     if(this.state.showFileData == false)
                     {
