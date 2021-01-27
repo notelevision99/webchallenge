@@ -14,5 +14,6 @@ namespace WebNongNghiep.InterfaceService
         Task<bool> SaveAll();
         Task<PhotoForReturn> GetPhoto(int id);
         Task<string> DeletePhoto(int id);
+        Task<int> DeletePhotoBlog(int id);
     }
 }

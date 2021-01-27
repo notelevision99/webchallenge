@@ -63,6 +63,7 @@ namespace WebNongNghiep.Admin.Services
         {
             
             var blog = await _db.Blogs
+                .Include(p => p.CategoryBlog)
                 .Include(p => p.PhotoBlog)
                 .FirstOrDefaultAsync(p => p.BlogId == blogId);
             //Trường hợp blog chưa có hình ảnh đại diên
@@ -71,6 +72,8 @@ namespace WebNongNghiep.Admin.Services
                 return new BlogForDetails
                 {
                     BlogId = blog.BlogId,
+                    BlogCategoryId = blog.CategoryBlog.CategoryBlogId,
+                    BlogCategoryName = blog.CategoryBlog.CategoryBlogName,
                     Title = blog.Title,
                     ShortDescription = blog.ShortDescription,
                     Content = blog.Content,
@@ -92,6 +95,8 @@ namespace WebNongNghiep.Admin.Services
             return new BlogForDetails
             {
                 BlogId = blog.BlogId,
+                BlogCategoryId = blog.CategoryBlog.CategoryBlogId,
+                BlogCategoryName = blog.CategoryBlog.CategoryBlogName,
                 Title = blog.Title,
                 ShortDescription = blog.ShortDescription,
                 Content = blog.Content,

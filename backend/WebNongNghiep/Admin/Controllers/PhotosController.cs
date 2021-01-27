@@ -108,5 +108,25 @@ namespace WebNongNghiep.Controllers
             }
             
         }
+        [HttpDelete("blogs/photos/{id}")]
+
+        public async Task<IActionResult> DeletePhotoBlog(int id)
+        {
+            try
+            {
+                var photoToDelete = await _photoService.DeletePhotoBlog(id);
+                if (photoToDelete == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy sản phẩm để xóa" });
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+
+        }
     }
 }

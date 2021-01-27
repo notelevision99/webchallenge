@@ -169,6 +169,21 @@ namespace WebNongNghiep.Services
             await _db.SaveChangesAsync();
             return "Xóa thành công";
         }
+        public async Task<int> DeletePhotoBlog(int id)
+        {
+            if(id == 0)
+            {
+                return 0;
+            }    
+            var photoToDelete = await _db.PhotoBlogs.FirstOrDefaultAsync(p => p.Id == id);
+            if(photoToDelete == null)
+            {
+                return 1;
+            }
+            _db.PhotoBlogs.Remove(photoToDelete);
+            await _db.SaveChangesAsync();
+            return 1;
+        }
     }
     
 }
