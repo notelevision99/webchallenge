@@ -9,6 +9,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CloudinaryUnsigned } from 'puff-puff/CKEditor';
 import { API_URL } from "../../../../helpers/admin/urlCallAxios";
 import InputForm from "../../../helperComponent/InputForm";
+import { showToastFailed, showToastSuccess } from '../../../../helpers/admin/toastNotify';
+import { Redirect } from 'react-router-dom';
 
 
 
@@ -27,6 +29,7 @@ export default class CreateBlog extends React.Component {
             selectedFile: {},
             idBlogToAddPhoto: 0,
             redirect: false,
+            showFileData: false,
             response: []
         }
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -98,19 +101,43 @@ export default class CreateBlog extends React.Component {
     onFileChange = event => {
 
         // Update the state 
-        this.setState({ selectedFile: event.target.files[0] });
+        this.setState({
+            selectedFile: event.target.files[0],
+            showFileData: true
+        });
 
     };
+
+    onPhotoBlogUpload() {
+        try {
+            if (this.state.showFileData) {
+                const urlPhotoBlogUpload = `${API_URL}/api/blogs/${this.state.idBlogToAddPhoto}/photos`
+                const formData = new FormData();
+                formData.append(
+                    'file',
+                    this.state.selectedFile
+                )
+                axios.post(urlPhotoBlogUpload, formData, {
+                    withCredentials: true,
+                    "headers": {
+                        "content-type": 'multipart/form-data',
+                    }
+                })
+                    .then(() => {
+                        showToastSuccess("Upload hình ảnh thành công");
+                    })
+                    .catch(err => {
+                        showToastFailed(err.response.data.message)
+                    })
+            }
+
+        } catch (error) {
+        }
+    }
+
     onBlogUpload() {
         try {
-            const urlToCreateBlog = `${API_URL}/api/blogs`
-           
-            const formData = new FormData();
-            formData.append(
-                'file',
-                this.state.selectedFile
-            )
-
+            const urlToCreateBlog = `${API_URL}/api/blogs`;
             axios.post(urlToCreateBlog, this.state.blogInfo, { withCredentials: true })
                 .then(res => {
                     this.setState({
@@ -118,13 +145,13 @@ export default class CreateBlog extends React.Component {
                         redirect: true,
                         response: res.data
                     })
-                    console.log(this.state.response)
-                    return axios.post(`${API_URL}/api/blogs/${this.state.idBlogToAddPhoto}/photos`, formData, {
-                        withCredentials: true,
-                        "headers": {
-                            "content-type": 'multipart/form-data',
-                        }
-                    })
+                })
+                .then(() => {
+                    showToastSuccess("Đăng tin thành công!");
+                })
+                .then(() => this.onPhotoBlogUpload())
+                .catch(err => {
+                    showToastFailed(err.response.data.message)
                 })
         } catch (error) {
             console.log(error)
@@ -265,7 +292,7 @@ export default class CreateBlog extends React.Component {
 
                                                     </div>
                                                     {
-                                                        this.state.selectedFile !== null && (
+                                                        this.state.showFileData && (
                                                             <div>
                                                                 <div className="List_nameImage">
                                                                     {
@@ -285,8 +312,11 @@ export default class CreateBlog extends React.Component {
 
                                         }
                                         {/**End Upload Blog Image */}
-                                    </div>
 
+                                    </div>
+                                    {
+                                        this.state.redirect && <Redirect to='/admin/banners' />
+                                    }
                                     <div className='col-md-12 pl-3 pb-5' >
                                         <div className='d-flex justify-content-around'>
                                             <button type="submit" className="btn btn-primary">Xác nhận</button>

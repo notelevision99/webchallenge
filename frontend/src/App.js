@@ -22,6 +22,7 @@ import CreateBanner from './components/atom/admin/banners/CreateBanner';
 import Orders from './components/atom/admin/orders/Orders';
 import OrderDetails from './components/atom/admin/orders/OrderDetails';
 import CreateBlog from './components/atom/admin/blogs/CreateBlog';
+import EditBlog from './components/atom/admin/blogs/EditBlog';
 
 
 export default class App extends Component {
@@ -35,46 +36,45 @@ export default class App extends Component {
           <Route path="/login" component={Login} />
 
           <ProtectedRoute
-            path="/products"
+            path="/admin/products"
             component={Product}
           />
           <ProtectedRoute
-            exact path="/"
+            exact path="/admin"
             component={Home}
           />
 
           <ProtectedRoute
-            path="/product/create"
+            path="/admin/product/create"
             component={CreateProduct}
           />
 
           <ProtectedRoute
-            path="/editproduct/:id"
+            path="/admin/editproduct/:id"
             component={EditProduct}
           />
 
-          <ProtectedRoute
-          
-            path="/categories"
+          <ProtectedRoute         
+            path="/admin/categories"
             component={ListCategories}
           />
           <ProtectedRoute
-            path="/editcategory/:categoryId"
+            path="/admin/editcategory/:categoryId"
             component={EditCategories}
           />
 
           <ProtectedRoute
           exact
-            path="/users"
+            path="/admin/users"
             component={ListAdmins}
           />
 
           <ProtectedRoute
-            path="/listadmins/create"
+            path="/admin/listadmins/create"
             component={CreateAdmin}
           />
           <ProtectedRoute          
-            path="/editusers/:id"
+            path="/admin/editusers/:id"
             component={EditCurrentAdmin}
           />
           <ProtectedRoute
@@ -98,6 +98,10 @@ export default class App extends Component {
           <ProtectedRoute
           path = "/admin/blogs/create"
           component={CreateBlog}
+          />
+          <ProtectedRoute
+          path = "/admin/blogs/edit/:blogId"
+          component={EditBlog}
           />
         </Switch>
       </Router>
