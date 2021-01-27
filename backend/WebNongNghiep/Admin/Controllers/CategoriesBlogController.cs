@@ -40,6 +40,23 @@ namespace WebNongNghiep.Admin.Controllers
                 return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> GetCategoriesBlog()
+        {
+            try
+            {
+                var result = await _categoryBlogServices.GetCategoriesBlog();
+                if(result == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy danh mục bài viết" });
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+        }
         [HttpDelete("{categoryBlogId}")]
         public async Task<IActionResult> DeleteBlog(int categoryBlogId)
         {

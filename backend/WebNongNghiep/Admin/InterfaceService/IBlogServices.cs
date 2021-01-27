@@ -9,7 +9,7 @@ namespace WebNongNghiep.Admin.InterfaceService
 {
     public interface IBlogServices
     {
-        Task<int> CreateBlog(BlogForCreation blogView);
+        Task<BlogResponseForCreationPhoto> CreateBlog(BlogForCreation blogView);
         Task<(IEnumerable<BlogForList>,int)> GetBlogs(int blogCategoryId,IFopRequest request);
         Task<int> DeleteBlog(int blogId);
         Task<int> UpdateBlog(int blogId, BlogForCreation blogDto);

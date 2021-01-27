@@ -26,11 +26,11 @@ namespace WebNongNghiep.Admin.Controllers
             try
             {
                 var result = await _blogServices.CreateBlog(blogDto);
-                if (result == 0)
+                if (result == null)
                 {
-                    return new BadRequestObjectResult(new { Message = "Vui lòng nhập thông tin" });
+                    return new BadRequestObjectResult(new { Message = "Có lỗi xảy ra. Vui lòng kiểm tra thông tin trước khi đăng" });
                 }
-                return Ok(new { Message = "Đăng tin thành công!" });
+                return Ok(result);
             }
             catch (Exception ex)
             {

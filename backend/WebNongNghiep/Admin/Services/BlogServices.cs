@@ -18,11 +18,11 @@ namespace WebNongNghiep.Admin.Services
         {
             _db = db;
         }
-        public async Task<int> CreateBlog(BlogForCreation blogView)
+        public async Task<BlogResponseForCreationPhoto> CreateBlog(BlogForCreation blogView)
         {
             if (blogView == null)
             {
-                return 0;
+                return null;
             }
             Blog blogToReturn = new Blog
             {
@@ -33,9 +33,11 @@ namespace WebNongNghiep.Admin.Services
                 CategoryBlogId = blogView.BlogCategoryId
 
             };
-            _db.Blogs.Add(blogToReturn);
+             _db.Blogs.Add(blogToReturn);
             await _db.SaveChangesAsync();
-            return 1;
+            return new BlogResponseForCreationPhoto { 
+                BlogId = blogToReturn.BlogId,         
+            };
         }
 
         public async Task<(IEnumerable<BlogForList>,int)> GetBlogs(int blogCategoryId, IFopRequest request)
