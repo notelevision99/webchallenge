@@ -87,7 +87,7 @@ export default class ListAdmins extends React.Component {
                                     {/* /.card-header */}
                                     <div className="card-body">
                                         <div className="col-md3">
-                                            <NavLink to="/listadmins/create">
+                                            <NavLink to="/admin/listadmins/create">
                                                 <button type="button" className="btn btn-success btn-lg">Thêm tài khoản</button>
                                             </NavLink>
                                         </div>

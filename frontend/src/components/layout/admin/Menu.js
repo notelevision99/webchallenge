@@ -54,7 +54,7 @@ class Menu extends React.Component {
                     {/* Sidebar user panel (optional) */}
                     <div className="user-panel mt-3 pb-3 mb-3 d-flex">
 
-                        <Link to={"/editusers/" + idCurrentUser}>
+                        <Link to={"/admin/editusers/" + idCurrentUser}>
                             <div className="info">
                                 <a onClick={this.handleEditCurrentUser} className="d-block">Xin chào <b>{this.state.userName}</b>
                                 </a>
@@ -79,7 +79,7 @@ class Menu extends React.Component {
 
                             </li>
                             <li className="nav-item">
-                                <Link to="/products">
+                                <Link to="/admin/products">
                                     <a className="nav-link">
                                         <i className="nav-icon fas fa-th" />
                                         <p>
@@ -91,7 +91,7 @@ class Menu extends React.Component {
 
                             </li>
                             <li className="nav-item">
-                                <Link to="/categories">
+                                <Link to="/admin/categories">
                                     <a className="nav-link">
                                         <i className="nav-icon fas fa-th" />
                                         <p>
@@ -104,7 +104,7 @@ class Menu extends React.Component {
                             </li>
 
                             <li className="nav-item">
-                                <Link to="/users">
+                                <Link to="/admin/users">
                                     <a className="nav-link">
                                         <i className="nav-icon fas fa-th" />
                                         <p>
