@@ -26,6 +26,8 @@ namespace WebNongNghiep.Models
 
         public string Company { get; set; }
 
+        public string UrlSeo { get; set; }
+
         public string PhotoUrl { get; set; }
 
        

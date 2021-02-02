@@ -113,36 +113,43 @@ namespace WebNongNghiep.Services
 
         public async Task<ProductForDetail> CreateProduct(ProductForCreation productDto)
         {
-            //add product in db     
-            Product productToReturn = new Product
+            var checkUrlSeoExist = _db.Products.Where(p => p.UrlSeo == productDto.UrlSeo);
+            if(checkUrlSeoExist == null)
             {
-                Id = productDto.Id,
-                ProductName = productDto.ProductName,
-                Price = productDto.Price,
-                CategoryId = productDto.CategoryId,
-                PhotoUrl = productDto.PhotoUrl,
-                Description = productDto.Description,
-                ProductDetails = productDto.ProductDetails,
-                Weight = productDto.Weight,
-                Company = productDto.Company
+                //add product in db     
+                Product productToReturn = new Product
+                {
+                    Id = productDto.Id,
+                    ProductName = productDto.ProductName,
+                    Price = productDto.Price,
+                    CategoryId = productDto.CategoryId,
+                    PhotoUrl = productDto.PhotoUrl,
+                    Description = productDto.Description,
+                    ProductDetails = productDto.ProductDetails,
+                    Weight = productDto.Weight,
+                    Company = productDto.Company,
+                    UrlSeo = productDto.UrlSeo                  
+                };
+                _db.Add(productToReturn);
+                await _db.SaveChangesAsync();
 
-            };
-            _db.Add(productToReturn);
-            await _db.SaveChangesAsync();
+                return new ProductForDetail
+                {
+                    Id = productToReturn.Id,
+                    ProductName = productToReturn.ProductName,
+                    CategoryId = productToReturn.CategoryId,
+                    Price = productToReturn.Price,
+                    Description = productToReturn.Description,
+                    ProductDetails = productToReturn.ProductDetails,
+                    Weight = productToReturn.Weight,
+                    Company = productToReturn.Company,
+                    UrlSeo = productToReturn.UrlSeo,
+                    Photos = null
 
-            return new ProductForDetail
-            {
-                Id = productToReturn.Id,
-                ProductName = productToReturn.ProductName,
-                CategoryId = productToReturn.CategoryId,
-                Price = productToReturn.Price,
-                Description = productToReturn.Description,
-                ProductDetails = productToReturn.ProductDetails,
-                Weight = productToReturn.Weight,
-                Company = productToReturn.Company,
-                Photos = null
+                };
+            }
+            return null;
             
-            };
 
         }
         public async Task<int> UpdateProduct(int id, ProductForCreation productDto)

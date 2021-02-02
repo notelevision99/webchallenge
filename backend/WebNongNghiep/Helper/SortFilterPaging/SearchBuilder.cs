@@ -103,6 +103,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                        Price = (int)p.Price,
                        Company = p.Company,
                        Weight = p.Weight,
+                       UrlSeo = p.UrlSeo,
                        PhotoUrl = p.Photos.First().Url,
                    });
 
@@ -125,6 +126,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                                                    Price = (int)p.Price,
                                                    Company = p.Company,
                                                    Weight = p.Weight,
+                                                   UrlSeo = p.UrlSeo,
                                                    PhotoUrl = p.Photos.First().Url,
                                                });
                         break;
@@ -142,6 +144,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                                                   Price = (int)p.Price,
                                                   Company = p.Company,
                                                   Weight = p.Weight,
+                                                  UrlSeo = p.UrlSeo,
                                                   PhotoUrl = p.Photos.First().Url,
                                               });
                         break;
@@ -154,8 +157,10 @@ namespace WebNongNghiep.Helper.SortFilterPaging
             //Nếu null chỉ phân trang vào sort
             else
             {
-                var recordsByCateId = entities.Products
-                    .Where(p => p.CategoryName == cateName);
+                var recordsByCateId = entities
+                    .Products
+                    .Include(p => p.Category)
+                    .Where(p => p.Category.CategoryName == cateName);
 
                 var countRecordsResult = recordsByCateId.Count();
 
@@ -171,6 +176,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                        Price = (int)p.Price,
                        Company = p.Company,
                        Weight = p.Weight,
+                       UrlSeo = p.UrlSeo,
                        PhotoUrl = p.Photos.First().Url,
                    });
 
@@ -193,6 +199,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                                                    Price = (int)p.Price,
                                                    Company = p.Company,
                                                    Weight = p.Weight,
+                                                   UrlSeo = p.UrlSeo,
                                                    PhotoUrl = p.Photos.First().Url,
                                                });
                         break;
@@ -210,6 +217,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                                                   Price = (int)p.Price,
                                                   Company = p.Company,
                                                   Weight = p.Weight,
+                                                  UrlSeo = p.UrlSeo,
                                                   PhotoUrl = p.Photos.First().Url,
                                               });
                         break;
@@ -274,6 +282,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                        Price = (int)p.Price,
                        Company = p.Company,
                        Weight = p.Weight,
+                       UrlSeo = p.UrlSeo,
                        PhotoUrl = p.Photos.First().Url,
                    });
 
@@ -296,6 +305,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                                                    Price = (int)p.Price,
                                                    Company = p.Company,
                                                    Weight = p.Weight,
+                                                   UrlSeo = p.UrlSeo,
                                                    PhotoUrl = p.Photos.First().Url,
                                                });
                         break;
@@ -313,6 +323,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                                                   Price = (int)p.Price,
                                                   Company = p.Company,
                                                   Weight = p.Weight,
+                                                  UrlSeo = p.UrlSeo,
                                                   PhotoUrl = p.Photos.First().Url,
                                               });
                         break;
@@ -342,6 +353,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                        Price = (int)p.Price,
                        Company = p.Company,
                        Weight = p.Weight,
+                       UrlSeo = p.UrlSeo,
                        PhotoUrl = p.Photos.First().Url,
                    });
 
@@ -364,6 +376,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                                                    Price = (int)p.Price,
                                                    Company = p.Company,
                                                    Weight = p.Weight,
+                                                   UrlSeo = p.UrlSeo,
                                                    PhotoUrl = p.Photos.First().Url,
                                                });
                         break;
@@ -381,6 +394,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                                                   Price = (int)p.Price,
                                                   Company = p.Company,
                                                   Weight = p.Weight,
+                                                  UrlSeo = p.UrlSeo,
                                                   PhotoUrl = p.Photos.First().Url,
                                               });
                         break;

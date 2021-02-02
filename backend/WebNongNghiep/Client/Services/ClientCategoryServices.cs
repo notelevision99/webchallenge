@@ -116,9 +116,11 @@ namespace WebNongNghiep.Client.Services
                     Price = (int)p.Price,
                     Company = p.Company,
                     Weight = p.Weight,
+                    UrlSeo = p.UrlSeo,
                     PhotoUrl = p.Photos.First().Url,
                 });
-                return (productsByCateId, countProductsByCateId);
+                var query = new SearchBuilder().BuildProductxCateid(cateName, _db, features_hash);
+                return (query.Item1, query.Item2);
             }
 
 

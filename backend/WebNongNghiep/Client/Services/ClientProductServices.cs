@@ -101,9 +101,11 @@ namespace WebNongNghiep.Client.Services
                     Price = (int)p.Price,
                     Company = p.Company,
                     Weight = p.Weight,
+                    UrlSeo = p.UrlSeo,
                     PhotoUrl = p.Photos.First().Url,
                 });
-                return (productsByCateId, countProductsByCateId);
+                var query = new SearchBuilder().BuildProducts(_db, features_hash);
+                return (query.Item1, query.Item2);
             }
         }
 
@@ -121,6 +123,7 @@ namespace WebNongNghiep.Client.Services
                 Price = (int)p.Price,
                 Company = p.Company,
                 Weight = p.Weight,
+                UrlSeo = p.UrlSeo,
                 PhotoUrl = p.Photos.First().Url,
             });
             return productsPopular;
@@ -144,6 +147,7 @@ namespace WebNongNghiep.Client.Services
                 Weight = productDetails.Weight,
                 Description = productDetails.Description,
                 ProductDetails = productDetails.ProductDetails,
+                UrlSeo = productDetails.UrlSeo,
                 PhotoUrl = productDetails.Photos.First().Url
             };
             var productsRelated = _db.Products.Include(p => p.Category).Where(p => p.CategoryId == productDetails.CategoryId)
@@ -156,8 +160,8 @@ namespace WebNongNghiep.Client.Services
                     Price = (int)p.Price,
                     Company = p.Company,
                     Weight = p.Weight,
-                    Description = p.Description,
-                    ProductDetails = p.ProductDetails,
+                    Description = p.Description,          
+                    UrlSeo = p.UrlSeo,
                     PhotoUrl = p.Photos.First().Url
                 }).Take(12).ToList();        
             return (productToReturn, productsRelated);

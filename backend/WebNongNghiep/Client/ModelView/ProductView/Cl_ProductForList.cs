@@ -30,6 +30,8 @@ namespace WebNongNghiep.Client.ModelView.ProductView
 
         public string Description { get; set; }
 
+        public string UrlSeo { get; set; }
+
         public ICollection<PhotoForDetail> Photos { get; set; }
     }
 }
