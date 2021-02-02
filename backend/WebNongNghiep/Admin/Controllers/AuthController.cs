@@ -48,15 +48,17 @@ namespace WebNongNghiep.Controllers
         //            UserName = registerUser.UserName,
         //            Email = registerUser.Email,
         //            Message = registerUser.Message,
+        //            Address = registerUser.Address,
         //            PhoneNumber = registerUser.PhoneNumber
+                    
         //        };
         //        return Ok(user);
         //    }
-        //    catch(Exception ex)
+        //    catch (Exception ex)
         //    {
         //        return BadRequest(ex.Message.ToString());
         //    }
-            
+
 
         //}
 

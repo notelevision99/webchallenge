@@ -10,44 +10,76 @@ using Microsoft.AspNetCore.Mvc;
 
 using WebNongNghiep.Client.InterfaceService;
 using WebNongNghiep.Client.ModelView;
+using WebNongNghiep.Client.ModelView.MessageMailView;
+using WebNongNghiep.Client.ModelView.PasswordResetView;
+using WebNongNghiep.Client.Services;
 using WebNongNghiep.Database;
+using WebNongNghiep.Helper;
 using WebNongNghiep.ModelView.UserView;
 
 namespace WebNongNghiep.Client.Controllers
 {
-    [Route("/api/auth")]
+   
+    [ApiController]
     public class ClientAuthController : Controller
     {
-        private readonly UserManager<User> userManager;
-        private readonly IClientAuthServices _authServices;
-        public ClientAuthController(IClientAuthServices authServices, UserManager<User> userManager)
+        private  UserManager<User> _userManager;
+        private IClientAuthServices _authServices;
+        private RoleManager<IdentityRole> _roleManager;
+        private IClientEmailSenderServices _emailSender;
+
+        public ClientAuthController(IClientAuthServices authServices, UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IClientEmailSenderServices emailSender
+            )
+            
         {
             _authServices = authServices;
-            this.userManager = userManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _emailSender = emailSender;
+         
         }
         [HttpPost]
-        [Route("Register")]
-        public async Task<IActionResult> Register([FromBody] Cl_UserDetails userDetails)
+        [Route("/api/auth/Register")]
+        public async Task<IActionResult> Register(Cl_UserDetails userDetails)
         {
             try
             {
-                if (userDetails == null || userDetails.UserName == null
-                || userDetails.Email == null || userDetails.Password == null)
+                var identityUser = new User()
                 {
-                    return new BadRequestObjectResult(new { Message = "Đăng kí thất bại" });
-                }
-                var registerUser = await _authServices.Register(userDetails);
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                var user = new Cl_UserDetails
-                {
-                    UserName = registerUser.UserName,
-                    Email = registerUser.Email,
-                    Message = registerUser.Message
+                    UserName = userDetails.UserName,
+                    Email = userDetails.Email,
+                    Address = userDetails.Address,
+                    PhoneNumber = userDetails.PhoneNumber,
                 };
-                return Ok(user);
+
+
+                bool checkRoleUser = await _roleManager.RoleExistsAsync("User");
+                if (!checkRoleUser)
+                {
+                    var role = new IdentityRole();
+                    role.Name = "User";
+                    await _roleManager.CreateAsync(role);
+                }
+
+                var checkUserExist = await _userManager.FindByNameAsync(userDetails.UserName);
+
+                if (checkUserExist != null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Tài khoản đã tồn tại" });
+                }
+
+
+                await _userManager.CreateAsync(identityUser, userDetails.Password);
+              
+                //Email Confirm
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+                var confirmationLink = Url.Action(nameof(ConfirmEmail), "ClientAuth", new { token, email = identityUser.Email }, Request.Scheme, "localhost:3000");
+                var message = new Message(new string[] { identityUser.Email }, "Confirmation email link", confirmationLink, null);
+                await _emailSender.SendEmailAsync(message);
+                await _userManager.AddToRoleAsync(identityUser, "User");
+                return Ok(new { Message = "Chúng tôi đã gửi yêu cầu xác nhận đến email. Vui lòng kiểm tra email"});
             }
             catch (Exception ex)
             {
@@ -56,8 +88,80 @@ namespace WebNongNghiep.Client.Controllers
 
         }
 
+        [HttpGet]
+        [Route("/auth")]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                    return View("Error");
+
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                return Ok(new { Message = "Xác nhận thành công" });
+            }
+            catch (Exception ex)
+            {
+
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+           
+        }
+
         [HttpPost]
-        [Route("Login")]
+        [Route("api/auth/ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(Cl_ForgotPasswordView view)
+        {
+            try
+            {
+                if (view.Email == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Email không được để trống" });
+                }
+                var user = await _userManager.FindByEmailAsync(view.Email);
+                if (user == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Email chưa được đăng kí trong hệ thống. Vui lòng thử lại" });
+                }
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callback = Url.Action("ResetPassword", "ClientAuth", new { token, email = user.Email }, Request.Scheme,"localhost:3000");
+                var message = new Message(new string[] { user.Email }, "Reset password token", callback, null);
+                await _emailSender.SendEmailAsync(message);
+                return Ok(new { Message = "Email đặt lại mật khẩu đã được gửi vào email của bạn. Vui lòng kiểm tra" });
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+            
+        }
+
+        [HttpGet]
+        [Route("/auth/ResetPassword")]
+        public async Task<IActionResult> ResetPassword(string token, string email)
+        {
+            var model = new Cl_ResetPasswordView { Token = token, Email = email };
+            return Ok().SetCookiesResetPwd(Response, model.Token);
+        }
+       
+
+        [HttpPost]
+        [Route("/auth/ResetPassword")]
+        public async Task<IActionResult> ResetPassword(Cl_ResetPasswordView resetPwdView)
+        {
+            var user = await _userManager.FindByEmailAsync(resetPwdView.Email);
+            if (user == null)
+            {
+                return new BadRequestObjectResult(new { Message = "Mật khẩu không được để trống" });
+            }
+            await _userManager.ResetPasswordAsync(user, resetPwdView.Token, resetPwdView.Password);
+            return new BadRequestObjectResult(new { Message = "Cập nhật mật khẩu thành công" });
+        }
+
+        [HttpPost]
+        [Route("/api/auth/Login")]
         public async Task<IActionResult> Login([FromBody] LoginCredentials credentials)
         {
             try
@@ -68,20 +172,22 @@ namespace WebNongNghiep.Client.Controllers
                     return new BadRequestObjectResult(new { Message = "Vui lòng nhập tên tài khoản và mật khẩu" });
                 }
 
-                var identityUser = await userManager.FindByNameAsync(credentials.UserName);
+                var identityUser = await _userManager.FindByNameAsync(credentials.UserName);
+
+                
                 if (identityUser == null)
                 {
                     return new BadRequestObjectResult(new { Message = "Sai tên tài khoản" });
                 }
 
-                var result = userManager.PasswordHasher.VerifyHashedPassword(identityUser, identityUser.PasswordHash, credentials.Password);
+                var result = _userManager.PasswordHasher.VerifyHashedPassword(identityUser, identityUser.PasswordHash, credentials.Password);
 
                 if (result == PasswordVerificationResult.Failed)
                 {
                     return new BadRequestObjectResult(new { Message = "Sai mật khẩu" });
                 }
 
-                var roles = await userManager.GetRolesAsync(identityUser);
+                var roles = await _userManager.GetRolesAsync(identityUser);
                 if (roles[0] != "User")
                 {
                     return new BadRequestObjectResult(new { Message = "Đăng nhập thất bại" });
@@ -124,7 +230,7 @@ namespace WebNongNghiep.Client.Controllers
         
 
         [HttpPost]
-        [Route("Logout")]
+        [Route("/api/auth/Logout")]
         public async Task<IActionResult> Logout()
         {
             try
@@ -140,4 +246,5 @@ namespace WebNongNghiep.Client.Controllers
         }
 
     }
+
 }

@@ -87,10 +87,6 @@ namespace WebNongNghiep.Client.Services
                     }
                 }
 
-
-
-
-
                 var searchQuery = new SearchBuilder().
                 SetSearchTerm(seacrhParameters.SearchTerm).//1
                 SetCompany(seacrhParameters.Company).//2
