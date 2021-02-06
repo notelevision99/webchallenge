@@ -145,7 +145,7 @@ export default class EditBlog extends React.Component {
     //Handle Delele Photo
     onDeleteImage = () => {
         try {
-            const urlToDeletePhotoBlog = `${API_URL}/api/blogs/${this.state.blogInfo.blogId}/photos/${this.state.blogInfo.photo.photoId}`;
+            const urlToDeletePhotoBlog = `${API_URL}/api/blogs/photos/${this.state.blogInfo.photo.photoId}`;
             axios
                 .delete(urlToDeletePhotoBlog, { withCredentials: true })
                 .then((res) => {
