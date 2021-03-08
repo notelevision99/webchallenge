@@ -17,6 +17,14 @@ import ProtectedRoute from "./helpers/admin/checkRolesAuth";
 import EditCurrentAdmin from "./components/atom/admin/users/EditCurrentAdmin";
 import Banners from "./components/atom/admin/banners/Banners";
 import CreateBanner from "./components/atom/admin/banners/CreateBanner";
+import EditCurrentAdmin from "./components/atom/admin/users/EditCurrentAdmin";
+import Banners from "./components/atom/admin/banners/Banners";
+import CreateBanner from "./components/atom/admin/banners/CreateBanner";
+
+import Orders from "./components/atom/admin/orders/Orders";
+import OrderDetails from "./components/atom/admin/orders/OrderDetails";
+import CreateBlog from "./components/atom/admin/blogs/CreateBlog";
+import EditBlog from "./components/atom/admin/blogs/EditBlog";
 
 // Client
 import "./styles/App.scss";
@@ -51,8 +59,22 @@ export default class App extends Component {
           <ProtectedRoute path="/editproduct/:id" component={EditProduct} />
 
           <ProtectedRoute path="/categories" component={ListCategories} />
+          <ProtectedRoute path="/admin/products" component={Product} />
+          <ProtectedRoute exact path="/admin" component={Home} />
+
           <ProtectedRoute
-            path="/editcategory/:categoryId"
+            path="/admin/product/create"
+            component={CreateProduct}
+          />
+
+          <ProtectedRoute
+            path="/admin/editproduct/:id"
+            component={EditProduct}
+          />
+
+          <ProtectedRoute path="/admin/categories" component={ListCategories} />
+          <ProtectedRoute
+            path="/admin/editcategory/:categoryId"
             component={EditCategories}
           />
 
@@ -61,12 +83,33 @@ export default class App extends Component {
           <ProtectedRoute path="/listadmins/create" component={CreateAdmin} />
           <ProtectedRoute path="/editusers/:id" component={EditCurrentAdmin} />
           <ProtectedRoute exact path="/admin/banners" component={Banners} />
+          <ProtectedRoute exact path="/admin/users" component={ListAdmins} />
+
+          <ProtectedRoute
+            path="/admin/listadmins/create"
+            component={CreateAdmin}
+          />
+          <ProtectedRoute
+            path="/admin/editusers/:id"
+            component={EditCurrentAdmin}
+          />
+          <ProtectedRoute exact path="/admin/banners" component={Banners} />
           <ProtectedRoute
             path="/admin/banners/create"
             component={CreateBanner}
           />
 
           {/* -----x----- Admin -----x----- */}
+          <ProtectedRoute exact path="/admin/orders" component={Orders} />
+          <ProtectedRoute
+            path="/admin/orders/:orderId"
+            component={OrderDetails}
+          />
+          <ProtectedRoute path="/admin/blogs/create" component={CreateBlog} />
+          <ProtectedRoute
+            path="/admin/blogs/edit/:blogId"
+            component={EditBlog}
+          />
         </Switch>
       </Router>
     );

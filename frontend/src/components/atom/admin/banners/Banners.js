@@ -26,6 +26,7 @@ export default class Banners extends React.Component {
             messageError: ''
         }
     }
+
     componentDidMount() {
         const urlGetBanners = `${API_URL}/api/banners`
         axios.get(urlGetBanners, { withCredentials: true })
@@ -38,6 +39,7 @@ export default class Banners extends React.Component {
                 })
             })
     }
+
     onDeleteBanner() {
         try {
             const urlToDeleteBanner = `${API_URL}/api/banners/${this.state.idToDelete}`
@@ -67,6 +69,7 @@ export default class Banners extends React.Component {
         console.log("Cliecked")
 
     }
+
     render() {
         return (
             <div>

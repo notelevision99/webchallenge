@@ -32,6 +32,8 @@ namespace WebNongNghiep.Services
         public async Task<UserToReturn> Register(UserDetails userDto)
         {
             var identityUser = new User() { UserName = userDto.UserName, Email = userDto.Email, PhoneNumber = userDto.PhoneNumber };
+            var checkEmailExist = userManager.FindByEmailAsync(userDto.Email);
+
             bool checkRoleUser = await roleManager.RoleExistsAsync("Admin");
             if (!checkRoleUser)
             {
@@ -39,28 +41,35 @@ namespace WebNongNghiep.Services
                 role.Name = "Admin";
                 await roleManager.CreateAsync(role);
             }
-
-            var checkUserExist = await userManager.FindByNameAsync(userDto.UserName);
-
-            if(checkUserExist != null)
+            if(checkEmailExist == null)
             {
+                var checkUserExist = await userManager.FindByNameAsync(userDto.UserName);
+
+                if (checkUserExist != null)
+                {
+                    return new UserToReturn
+                    {
+                        Message = "Tài khoản đã tồn tại"
+                    };
+                }
+
+                await userManager.CreateAsync(identityUser, userDto.Password);
+                await userManager.AddToRoleAsync(identityUser, "Admin");
                 return new UserToReturn
                 {
-                    Message = "Tài khoản đã tồn tại"
+                    UserName = identityUser.UserName,
+                    Email = identityUser.Email,
+                    PhoneNumber = identityUser.PhoneNumber,
+                    Roles = "Admin",
+                    Message = "Đăng kí thành công"
                 };
             }
-
-            await userManager.CreateAsync(identityUser, userDto.Password);
-            await userManager.AddToRoleAsync(identityUser, "Admin");
             return new UserToReturn
             {
-                UserName = identityUser.UserName,
-                Email = identityUser.Email,
-                PhoneNumber = identityUser.PhoneNumber,
-                Roles = "Admin",
-                Message = "Đăng kí thành công"
+                Message = "Email đã tồn tại vui lòng nhập email khác"
             };
         }
+            
         public async Task<IEnumerable<UserToReturn>> GetListAdmins()
         {
             var users = await userManager.Users.ToListAsync();

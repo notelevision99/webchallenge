@@ -68,11 +68,14 @@ namespace WebNongNghiep.Admin.Services
                 
             return new OrderForDetails
             {
+                Id = orderDetail.ID,
                 UserName = orderDetail.Order.User.UserName,
                 DateOrder = orderDetail.Order.DateOrder.Date,
                 ShipAddress = orderDetail.Order.ShipAddress,
                 ShipCity = orderDetail.Order.ShipCity,
                 ShipProvince = orderDetail.Order.ShipProvince,
+                PhoneNumber = orderDetail.Order.User.PhoneNumber,
+                Email = orderDetail.Order.User.Email,
                 UserId = orderDetail.Order.User.Id,              
                 Items = items,
                 TotalPrice = totalPrice
@@ -96,5 +99,20 @@ namespace WebNongNghiep.Admin.Services
                         }).ApplyFop(request);
             return (await orders.ToListAsync(), totalCount);                    
         }
+
+        public async Task<int> DeleteOrder(int orderId)
+        {
+            if(orderId == 0)
+            {
+                return 0;
+            }
+            var orderToDelete = _db.Orders.FirstOrDefault(p => p.OrderId == orderId);
+            _db.Orders.Remove(orderToDelete);
+            await _db.SaveChangesAsync();
+            return 1;
+        }
+        
+        
+        
     }
 }

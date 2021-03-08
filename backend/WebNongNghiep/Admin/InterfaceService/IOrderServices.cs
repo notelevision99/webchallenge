@@ -12,5 +12,6 @@ namespace WebNongNghiep.Admin.InterfaceService
         Task<(IEnumerable<OrderForList>, int)> GetOrders(IFopRequest request);
         Task<OrderForDetails> GetOrderById(int id);
         Task<(IEnumerable<OrderForList>, int)> GetOrdersByUserId(string userId, IFopRequest request);
+        Task<int> DeleteOrder(int id);
     }
 }

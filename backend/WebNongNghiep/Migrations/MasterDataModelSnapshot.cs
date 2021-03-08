@@ -178,6 +178,39 @@ namespace WebNongNghiep.Migrations
                     b.ToTable("Banners");
                 });
 
+            modelBuilder.Entity("WebNongNghiep.Database.Blog", b =>
+                {
+                    b.Property<int>("BlogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("CategoryBlogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BlogId");
+
+                    b.HasIndex("CategoryBlogId");
+
+                    b.ToTable("Blogs");
+                });
+
             modelBuilder.Entity("WebNongNghiep.Database.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -191,6 +224,21 @@ namespace WebNongNghiep.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("WebNongNghiep.Database.CategoryBlog", b =>
+                {
+                    b.Property<int>("CategoryBlogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CategoryBlogName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CategoryBlogId");
+
+                    b.ToTable("CategoryBlogs");
                 });
 
             modelBuilder.Entity("WebNongNghiep.Database.Order", b =>
@@ -283,6 +331,39 @@ namespace WebNongNghiep.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("WebNongNghiep.Database.PhotoBlog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId")
+                        .IsUnique();
+
+                    b.ToTable("PhotoBlogs");
                 });
 
             modelBuilder.Entity("WebNongNghiep.Database.Product", b =>
@@ -454,6 +535,17 @@ namespace WebNongNghiep.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebNongNghiep.Database.Blog", b =>
+                {
+                    b.HasOne("WebNongNghiep.Database.CategoryBlog", "CategoryBlog")
+                        .WithMany("Blogs")
+                        .HasForeignKey("CategoryBlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CategoryBlog");
+                });
+
             modelBuilder.Entity("WebNongNghiep.Database.Order", b =>
                 {
                     b.HasOne("WebNongNghiep.Database.User", "User")
@@ -493,6 +585,17 @@ namespace WebNongNghiep.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("WebNongNghiep.Database.PhotoBlog", b =>
+                {
+                    b.HasOne("WebNongNghiep.Database.Blog", "Blog")
+                        .WithOne("PhotoBlog")
+                        .HasForeignKey("WebNongNghiep.Database.PhotoBlog", "BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+                });
+
             modelBuilder.Entity("WebNongNghiep.Database.Product", b =>
                 {
                     b.HasOne("WebNongNghiep.Database.Category", "Category")
@@ -504,9 +607,19 @@ namespace WebNongNghiep.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("WebNongNghiep.Database.Blog", b =>
+                {
+                    b.Navigation("PhotoBlog");
+                });
+
             modelBuilder.Entity("WebNongNghiep.Database.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("WebNongNghiep.Database.CategoryBlog", b =>
+                {
+                    b.Navigation("Blogs");
                 });
 
             modelBuilder.Entity("WebNongNghiep.Database.Product", b =>

@@ -189,7 +189,7 @@ class Product extends React.Component {
                 orderByPriceParams: '&order=price;asc'
             }, () => {
                 this.componentDidMount();
-
+                
             })
         }
 
@@ -273,7 +273,6 @@ class Product extends React.Component {
                             <div className="col-12">
 
                                 <div className="card">
-
                                     <div className="card-header">
                                         <h3 className="card-title">Danh sách sản phẩm</h3>
                                     </div>
@@ -281,7 +280,7 @@ class Product extends React.Component {
                                     <div className="card-body">
                                         <div className='row'>
                                             <div className="col-md-9">
-                                                <NavLink to="/product/create">
+                                                <NavLink to="/admin/product/create">
 
                                                     <button type="button" className="btn btn-success btn-lg">Thêm sản phẩm</button>
                                                 </NavLink>
@@ -340,7 +339,7 @@ class Product extends React.Component {
                                                                 <img className="img-listProd" src={record.photoUrl} />
                                                             </td>
                                                             <td>
-                                                                <NavLink to={"editproduct/" + record.id}>
+                                                                <NavLink to={"/admin/editproduct/" + record.id}>
                                                                     <i class="fas fa-edit"> </i>
                                                                 </NavLink>
 

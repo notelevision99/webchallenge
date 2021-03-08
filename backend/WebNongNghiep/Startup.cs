@@ -16,6 +16,7 @@ using System.Security.Claims;
 using WebNongNghiep.Admin.InterfaceService;
 using WebNongNghiep.Admin.Services;
 using WebNongNghiep.Client.InterfaceService;
+using WebNongNghiep.Client.ModelView.MessageMailView;
 using WebNongNghiep.Client.Services;
 using WebNongNghiep.Database;
 using WebNongNghiep.Helper;
@@ -44,15 +45,25 @@ namespace WebNongNghiep
             services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IBannerServices, BannerServices>();
             services.AddScoped<IOrderServices, OrderServices>();
+            services.AddScoped<IBlogServices, BlogServices>();
+            services.AddScoped<ICategoryBlogServices, CategoryBlogServices>();
             //CLient service scoped
             services.AddScoped<IClientAuthServices, ClientAuthServices>();
             services.AddScoped<IClientCategoryServices, ClientCategoryServices>();
             services.AddScoped<IClientGetFilterParamsServices, ClientGetFilterParamsServices>();
             services.AddScoped<IClientProductServices, ClientProductServices>();
             services.AddScoped<IClientOrderServices, ClientOrderServices>();
+            services.AddScoped<IClientBlogServices, ClientBlogServices>();
+            services.AddScoped<IClientEmailSenderServices, ClientEmailSenderServices>();
+
             //
-            services.AddIdentity<User,IdentityRole>()             
-                .AddEntityFrameworkStores<MasterData>()           
+            services.AddIdentity<User, IdentityRole>(opt =>
+               {
+                   opt.User.RequireUniqueEmail = true;
+
+                   opt.SignIn.RequireConfirmedEmail = true; 
+               })
+                .AddEntityFrameworkStores<MasterData>()
                 .AddDefaultTokenProviders();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => { options.SlidingExpiration = true; options.ExpireTimeSpan = new TimeSpan(48, 0, 0); });
 
@@ -61,6 +72,15 @@ namespace WebNongNghiep
             .AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+
+            //Email Config
+            var emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+
+
+            services.AddControllersWithViews();
 
             //Add authorization
             services.AddAuthorization(config =>
@@ -89,7 +109,7 @@ namespace WebNongNghiep
             app.UseRouting();
 
             app.UseCors(options =>
-            options.WithOrigins("https://localhost:3000", "https://localhost:44310")
+            options.WithOrigins("https://localhost:3000")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .SetIsOriginAllowed(origin => true) // allow any origin

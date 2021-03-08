@@ -7,6 +7,8 @@ namespace WebNongNghiep.Admin.ModelView.OrderView
 {
     public class OrderForDetails
     {
+        public int Id { get; set; }
+
         public string UserName { get; set; }
 
         public DateTime DateOrder { get; set; }
@@ -16,6 +18,10 @@ namespace WebNongNghiep.Admin.ModelView.OrderView
         public string ShipCity { get; set; }
 
         public string ShipProvince { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string Email { get; set; }
 
         public string UserId { get; set; }
 

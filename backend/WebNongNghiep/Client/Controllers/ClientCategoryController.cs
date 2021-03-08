@@ -51,8 +51,7 @@ namespace WebNongNghiep.Client.Controllers
                 {
                     return new BadRequestObjectResult(new { Message = "Có lỗi xảy ra khi tìm kiếm sản phẩm" });
                 }
-                
-                
+                             
                 return Ok(result);
 
             }

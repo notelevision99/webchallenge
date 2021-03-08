@@ -42,7 +42,6 @@ namespace WebNongNghiep.Admin.Controllers
                 return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
           
             }
-
         }
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserById(string userId)
@@ -79,6 +78,7 @@ namespace WebNongNghiep.Admin.Controllers
             }
             return Ok(new { Message = "Xóa thành công" });
         }
+
         
     }
 }

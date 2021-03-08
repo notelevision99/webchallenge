@@ -8,7 +8,7 @@ namespace WebNongNghiep.Client.InterfaceService
 {
     public interface IClientAuthServices
     {
-        Task<Cl_UserToReturn> Register(Cl_UserDetails userDetailsDto);
+        //Task<Cl_UserToReturn> Register(Cl_UserDetails userDetailsDto);
         Task<IEnumerable<Cl_UserToReturn>> GetListUsers();
     }
 }
