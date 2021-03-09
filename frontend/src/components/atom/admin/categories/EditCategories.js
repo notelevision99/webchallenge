@@ -97,7 +97,7 @@ export default class EditCategories extends React.Component {
                         <div className="container-fluid">
                             <div className="row mb-2">
                                 <div className="col-sm-6">
-                                    <h1>Sửa sản phẩm</h1>
+                                    <h1>Sửa loại sản phẩm</h1>
                                 </div>
                             </div>
                         </div>

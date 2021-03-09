@@ -48,6 +48,38 @@
 .content-wrapper .card > .card-body > .row {
     margin-bottom: 10px;
 }
+.card-title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card-body ul {
+    margin: 0px;
+    padding: 0px;
+}
+.card-body ul li {
+    margin: 5px;
+    text-decoration: none;
+    list-style-type: none;
+}
+.card-body .item-categories-blog {
+    padding: 0px;
+    border: none;
+    background: none;
+    color: rgba(29, 29, 29, 0.5);
+    border-bottom: 3px solid transparent;
+    width: fit-content;
+    text-align: left;
+    font-weight: bold;
+    font-size: large;
+    text-transform: uppercase;
+    outline: none;
+    transition: all 0.3s;
+}
+.card-body .item-categories-blog.active {
+    color: rgba(139, 51, 0, 0.7);
+    border-bottom: 3px solid rgba(139, 51, 0, 0.8);
+}
 
 /* Table */
 .table-bordered {

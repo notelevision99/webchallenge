@@ -25,7 +25,7 @@ export default class ListCategories extends React.Component {
     }
 
     componentDidMount() {
-        const url = `${API_URL}/api/categories`;
+        const url = `${API_URL}/api/categoriesblog`;
 
         axios.get(url, { withCredentials: true }).then((res) => {
             this.setState({
@@ -42,13 +42,13 @@ export default class ListCategories extends React.Component {
         });
     }
 
-    onDeleleProd = (id) => {
+    onDeleleCategoriesBlog = (id) => {
         console.log(this.state.idToDelete);
-        const urlToDeleteProd = `${API_URL}/api/categories/${id}`;
+        const urlToDeleteProd = `${API_URL}/api/categoriesblog/${id}`;
         console.log(urlToDeleteProd);
         axios.delete(urlToDeleteProd, { withCredentials: true }).then(() => {
             window.location.reload();
-            showToastSuccess('Xóa sản phẩm thành công');
+            showToastSuccess('Xóa thành công');
         });
     };
 
@@ -64,39 +64,45 @@ export default class ListCategories extends React.Component {
                             <div className='col-12'>
                                 <div className='card'>
                                     <div className='card-header'>
-                                        <h3 className='card-title'>Danh sách loại sản phẩm</h3>
+                                        <h3 className='card-title'>Danh sách loại bài đăng</h3>
                                     </div>
                                     {/* /.card-header */}
                                     <div className='card-body'>
                                         <div className='row col-md'>
-                                            <NavLink to='/admin/categories/create'>
+                                            <NavLink to='/admin/categoriesblog/create'>
                                                 <button type='button' className='btn btn-success btn-lg'>
-                                                    Thêm loại sản phẩm
+                                                    Thêm danh mục bài đăng
                                                 </button>
                                             </NavLink>
                                         </div>
                                         <table className='table table-bordered table-hover'>
                                             <thead>
                                                 <tr>
-                                                    <th>Loại sản phẩm</th>
+                                                    <th>Loại bài đăng</th>
                                                     <th className='table-edit'></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {this.state.categories.map((record, index) => (
                                                     <tr>
-                                                        <td>{record.categoryName}</td>
+                                                        <td>{record.categoryBlogName}</td>
 
                                                         <td className='table-edit'>
-                                                            <NavLink to={'editcategory/' + record.categoryId}>
-                                                                <i class='fas fa-edit text-success'> </i>
-                                                            </NavLink>
+                                                            {/* <NavLink
+                                                                    to={
+                                                                        "/admin/categoriesblog/edit/" +
+                                                                        record.categoryBlogId
+                                                                    }>
+                                                                    <i class="fas fa-edit text-success">
+                                                                        {" "}
+                                                                    </i>
+                                                                </NavLink> */}
                                                             <a>
                                                                 <i
                                                                     onClick={() => {
                                                                         this.showModal(
-                                                                            record.categoryName,
-                                                                            record.categoryId
+                                                                            record.categoryBlogName,
+                                                                            record.categoryBlogId
                                                                         );
                                                                     }}
                                                                     class='fas fa-trash-alt'
@@ -111,7 +117,9 @@ export default class ListCategories extends React.Component {
                                                                     }
                                                                     title={'Xóa sản phẩm' + this.state.idToDelete}
                                                                     submit={() =>
-                                                                        this.onDeleleProd(this.state.idToDelete)
+                                                                        this.onDeleleCategoriesBlog(
+                                                                            this.state.idToDelete
+                                                                        )
                                                                     }
                                                                 />
                                                             )}

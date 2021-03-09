@@ -1,5 +1,5 @@
-import { toast, Flip } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, Flip } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const showToastFailed = (content) => {
     toast.error(content, {
@@ -10,9 +10,9 @@ export const showToastFailed = (content) => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        transition: Flip
+        transition: Flip,
     });
-}
+};
 
 export const showToastSuccess = (content) => {
     toast.success(content, {
@@ -23,6 +23,6 @@ export const showToastSuccess = (content) => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        transition: Flip
+        transition: Flip,
     });
-}
+};
