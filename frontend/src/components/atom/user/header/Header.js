@@ -6,7 +6,7 @@ import Vietnamese from '../../../../assets/images/en_US.png';
 import English from '../../../../assets/images/vi_VN.png';
 
 //Icons
-import { IconBasket, IconNews, IconSearch, IconSupport } from '../../../../assets/icons';
+import { IconBasket, IconSupport } from '../../../../assets/icons';
 import { NavLink } from 'react-router-dom';
 
 function Header() {
@@ -62,34 +62,48 @@ function Header() {
                                 <p>Mua Hàng</p>
                             </a>
 
-                            <a>
+                            <NavLink to='/dang-ki'>
                                 <p>Đăng kí</p>
-                            </a>
+                            </NavLink>
 
-                            <a>
+                            <NavLink to='/dang-nhap'>
                                 <p>Đăng nhập</p>
-                            </a>
+                            </NavLink>
                         </div>
                     </div>
                 </div>
 
                 <div className='menu--bottom'>
                     <ul>
-                        <li className='cate-item'>Trang chủ</li>
-                        <li className='cate-item'>Giới thiệu</li>
+                        <li className='cate-item'>
+                            <NavLink to='/'>Trang chủ</NavLink>
+                        </li>
+                        <li className='cate-item'>
+                            <NavLink to='/gioi-thieu'>Giới thiệu</NavLink>
+                        </li>
                         <li className='cate-item'>
                             <NavLink to='/san-pham'>Sản phẩm</NavLink>
                         </li>
-                        <li className='cate-item'>Hoạt động</li>
+                        <li className='cate-item'>
+                            <NavLink to='/hoat-dong'>Hoạt động</NavLink>
+                        </li>
 
                         <li className='menu-logo'>
                             <img src={Logo} alt='' />
                         </li>
 
-                        <li className='cate-item'>DV nông nghiệp</li>
-                        <li className='cate-item'>R&D</li>
-                        <li className='cate-item'>Liên hệ</li>
-                        <li className='cate-item'>Tuyển dụng</li>
+                        <li className='cate-item'>
+                            <NavLink to='/dich-vu-nong-nghiep'>DV nông nghiệp</NavLink>
+                        </li>
+                        <li className='cate-item'>
+                            <NavLink to='/r&d'>R&D</NavLink>
+                        </li>
+                        <li className='cate-item'>
+                            <NavLink to='lien-he'>Liên hệ</NavLink>
+                        </li>
+                        <li className='cate-item'>
+                            <NavLink to='tuyen-dung'></NavLink>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -33,6 +33,7 @@ import Header from './components/atom/user/header/Header';
 import Footer from './components/atom/user/footer/Footer';
 import ProductPage from './pages/ProductPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import LoginPage from './pages/LoginPage';
 
 export default class App extends Component {
     render() {
@@ -44,6 +45,11 @@ export default class App extends Component {
                     <Route exact path='/'>
                         <Header />
                         <HomePage />
+                        <Footer />
+                    </Route>
+
+                    <Route exact path='/dang-nhap'>
+                        <LoginPage />
                         <Footer />
                     </Route>
 
@@ -63,7 +69,7 @@ export default class App extends Component {
 
                     {/* ----------- Admin ----------- */}
 
-                    <Route path='/login' component={Login} />
+                    <Route path='/admin/login' component={Login} />
 
                     <ProtectedRoute exact path='/admin/products' component={Product} />
                     <ProtectedRoute exact path='/admin/home' component={Home} />

@@ -21,6 +21,8 @@ header {
       a {
         @include midflex;
 
+        text-decoration: none;
+        color: #222;
         .header-icon {
           font-size: 2rem;
 

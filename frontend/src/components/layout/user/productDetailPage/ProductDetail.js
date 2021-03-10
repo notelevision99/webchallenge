@@ -25,7 +25,7 @@ function ProductDetail() {
 
             <div className='info-box'>
                 {/* ===== Slide ===== */}
-                <div style={{ marginLeft: '3.6rem', width: '60rem' }}>
+                <div className='slide-box'>
                     <Swiper
                         spaceBetween={0}
                         slidesPerView={1}
