@@ -72,7 +72,7 @@ export default class App extends Component {
                         <Footer />
                     </Route>
 
-                    <Route path='/san-pham/:productId'>
+                    <Route path='/san-pham/:urlSeo'>
                         <Header />
                         <ProductDetailPage />
                         <Footer />
