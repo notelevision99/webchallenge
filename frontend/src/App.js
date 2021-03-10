@@ -34,6 +34,8 @@ import Footer from './components/atom/user/footer/Footer';
 import ProductPage from './pages/ProductPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import LoginPage from './pages/LoginPage';
+import SignUp from './pages/SignUpPage';
+import AboutPage from './pages/AboutPage';
 
 export default class App extends Component {
     render() {
@@ -48,8 +50,19 @@ export default class App extends Component {
                         <Footer />
                     </Route>
 
+                    <Route exact path='/dang-ki'>
+                        <SignUp />
+                        <Footer />
+                    </Route>
+
                     <Route exact path='/dang-nhap'>
                         <LoginPage />
+                        <Footer />
+                    </Route>
+
+                    <Route exact path='/gioi-thieu'>
+                        <Header />
+                        <AboutPage />
                         <Footer />
                     </Route>
 
