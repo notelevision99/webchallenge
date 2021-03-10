@@ -131,6 +131,12 @@ header {
 
           cursor: pointer;
           position: relative;
+          
+          a {
+            color: $primary;
+            
+            text-decoration: none;
+          }
 
           &::before {
             content: "";

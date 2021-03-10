@@ -2,8 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import Menu from '../../../layout/admin/Menu';
-import Product from '../../../atom/admin/Products/Product';
 import { API_URL } from '../../../../helpers/admin/urlCallAxios';
 
 export const authControl = {

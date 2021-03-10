@@ -38,7 +38,7 @@
 
       color: $white;
 
-      border: 0.3rem solid $white;
+      border: 0.3rem solid #333;
       border-radius: 50%;
 
       &:hover {
@@ -81,12 +81,41 @@
   }
 }
 
-.banner {
+.banner-box {
   width: 100%;
-  height: 100%;
+  height: 80vh;
 
-  img {
+  .banner {
     width: 100%;
     height: 100%;
+  
+    a {
+      position: absolute;
+      top: 22%;
+      left: 15%;
+  
+      font-size: 2.6rem;
+    }
+  
+    .title-page {
+      position: absolute;
+      top: 15%;
+      left: 10%;
+  
+      font-size: 4.6rem;
+  
+      .underlined-title {
+        margin-top: 0.6rem;
+        width: 57%;
+        
+        border-radius: 0.2rem;
+        border-bottom: 0.5rem solid #333;
+      }
+    }
+  
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
