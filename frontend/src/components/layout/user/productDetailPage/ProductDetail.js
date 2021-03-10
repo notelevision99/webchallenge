@@ -12,16 +12,39 @@ import banner3 from '../../../../assets/images/banner/banner-3.jpg';
 import banner2 from '../../../../assets/images/banner/banner-2.jpg';
 import banner1 from '../../../../assets/images/banner/banner-1.jpg';
 import banner from '../../../../assets/images/banner/banner.jpg';
-
+import { API_URL } from "../../../../helpers/user/urlCallAxios";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useLocation } from 'react-router';
+import { useParams } from "react-router";
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Autoplay]);
 
 function ProductDetail() {
+
+    const [prodDetail, setProdDetail] = useState({})
+    const location = useLocation();
+    let {urlSeo} = useParams();
+    useEffect(() => {
+        fetchProdDetail();
+    },[])
+    const fetchProdDetail = () => {
+         const urlGetProdDetail = `${API_URL}/api/products/${urlSeo}`  
+
+         axios.get(urlGetProdDetail)
+         .then(res => {
+             setProdDetail(res.data.item1)
+            
+         })
+         .catch(err => {});
+    }
     return (
         <>
             <h1 className='category-title'>
                 Thông tin sản phẩm
                 <div className='underlined-category-title'></div>
             </h1>
+
+           
 
             <div className='info-box'>
                 {/* ===== Slide ===== */}
@@ -62,16 +85,19 @@ function ProductDetail() {
                     </Swiper>
                 </div>
                 {/* ===x=== Slide ===x=== */}
-
-                <div className='info-detail'>
-                    <h3>Giống lúa thuần chất lượng Thiên ưu 8</h3>
+                {
+                    prodDetail !== null && 
+                    <div className='info-detail'>
+                    <h3>{prodDetail.productName}</h3>
                     <ul>
                         <li>
-                            <strong>Thời gian sinh trưởng</strong>:&nbsp;Vụ Xuân 125-130 ngày; vụ Mùa 100-105 ngày&nbsp;
+                            <strong>Loại sản phẩm</strong>:&nbsp;{prodDetail.categoryName}&nbsp;
                         </li>
                         <li>
-                            <strong>Năng suất</strong>:&nbsp;Năng suất trung bình 70 – 75 tạ/ha, thâm canh đạt 85- 90
-                            tạ/ha.
+                            <strong>Thuộc công ty</strong>:&nbsp;{prodDetail.company}
+                        </li>
+                        <li>
+                            <strong>Trọng lượng</strong>:&nbsp;{prodDetail.weight} kg
                         </li>
                         <li>
                             <strong>Đặc&nbsp;điểm:</strong>&nbsp;Chiều cao cây 100-110 cm, phiến lá phẳng đứng, gọn
@@ -84,8 +110,10 @@ function ProductDetail() {
                         </li>
                     </ul>
 
-                    <h3>Giá: 13 000 đ</h3>
+                    <h3>{prodDetail.price}đ</h3>
                 </div>
+                }
+                
             </div>
         </>
     );

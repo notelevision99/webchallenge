@@ -22,8 +22,8 @@ function ListProduct() {
             .catch((err) => {});
     };
 
-    const productDetail = (id) => {
-        history.push('/san-pham/' + id);
+    const productDetail = (urlSeo) => {
+        history.push('/san-pham/' + urlSeo);
     };
     return (
         <div className='product-box'>
@@ -35,10 +35,11 @@ function ListProduct() {
             <div className='product-grid'>
                 {Object.keys(listProd).length !== 0 &&
                     listProd.item1.map((item) => (
-                        <div className='product-card' onClick={() => productDetail(item.id)}>
+                        <div className='product-card' onClick={() => productDetail(item.urlSeo)}>
                             <img src={item.photoUrl} />
                             <div className='info-product'>
                                 <h3>{item.productName}</h3>
+                             
                             </div>
                         </div>
                     ))}

@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import Header from "../../../layout/admin/Header";
 import Menu from "../../../layout/admin/Menu";
 import { API_URL } from "../../../../helpers/admin/urlCallAxios";
-import Modal from "../../../../components/helperComponent/modal";
+import Modal from "../../../helperComponent/modal";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
