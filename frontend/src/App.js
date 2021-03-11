@@ -36,6 +36,7 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import LoginPage from './pages/LoginPage';
 import SignUp from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
+import NewsPage from './pages/NewsPage';
 
 export default class App extends Component {
     render() {
@@ -63,6 +64,12 @@ export default class App extends Component {
                     <Route exact path='/gioi-thieu'>
                         <Header />
                         <AboutPage />
+                        <Footer />
+                    </Route>
+
+                    <Route exact path='/tin-tuc'>
+                        <Header />
+                        <NewsPage />
                         <Footer />
                     </Route>
 

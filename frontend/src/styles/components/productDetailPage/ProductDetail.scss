@@ -1,20 +1,46 @@
-.info-box {
+.info-product-box {
 	display: flex;
+	margin: 5rem;
+	margin-left: 10%;
 
 	font-size: large;
 
 	.info-detail {
-		margin: 3.6rem;
+		margin: 0.5rem 5rem;
 	}
 }
-.slide-box {
-	width: 60rem;
-	margin-left: 3.6rem;
-}
 
-.banner {
-	img {
-		width: 100%;
-		height: 100%;
+.slide-box {
+	.swiper-container {
+		width: 40rem;
+		height: 20rem;
+	
+		.swiper-button-next {
+			right: 2rem;
+		}
+	
+		.swiper-button-prev {
+			left: 2rem;
+		}
+	
+		.swiper-pagination {
+			bottom: 2rem !important;
+		}
+	}
+	
+	.swiper-wrapper {
+		height: 40rem;
+		padding-inline-start: 0;
+	
+		.slider {
+			width: 100%;
+			height: 100%;
+	
+			img {
+				object-fit: fill;
+				width: 100%;
+				height: 100%;
+			}
+		}
 	}
 }

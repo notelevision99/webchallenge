@@ -1,0 +1,21 @@
+.blog-grid {
+	justify-items: left;
+	margin:4rem;
+	display: block;
+
+	.blog-card {
+		margin: 2rem;
+		display: flex;
+
+		
+		h1 {
+			margin-left: 1.6rem;
+		}
+
+		img {
+			border-radius: 0.5rem;
+			box-shadow: 0 5px 11px 0 rgba(0,0,0,.18),0 4px 15px 0 rgba(0,0,0,.15)!important;
+			width: 30rem;
+		}
+	}
+}

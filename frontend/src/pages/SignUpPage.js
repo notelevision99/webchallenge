@@ -14,7 +14,7 @@ function SignUp() {
 
     const login = (e) => {
         e.preventDefault();
-        
+
         const formSignUp = {
             userName: username,
             password: password,

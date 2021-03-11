@@ -39,7 +39,6 @@ function ListProduct() {
                             <img src={item.photoUrl} />
                             <div className='info-product'>
                                 <h3>{item.productName}</h3>
-                             
                             </div>
                         </div>
                     ))}
@@ -59,7 +58,7 @@ function ListProduct() {
 
             <div className='product-grid'>
                 <div className='product-card'>
-                    <img src={banner} />
+                    <img src={banner} alt='Product' />
                     <div className='info-product'>
                         <h3>Giống lúa Thiên ưu 8</h3>
                     </div>

@@ -51,6 +51,11 @@
       font-size: 1.6rem;
       font-weight: bold;
 
+      &:hover {
+        text-decoration: underline;
+        color: $primary;
+      }
+
       .MuiSvgIcon-root {
         font-size: 3rem;
       }
