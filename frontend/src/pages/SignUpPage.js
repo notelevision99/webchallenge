@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { API_URL } from '../helpers/user/urlCallAxios';
-import Axios from 'axios';
+import axios from 'axios';
 
 function SignUp() {
     const [username, setUsername] = useState('');
@@ -14,16 +14,16 @@ function SignUp() {
 
     const login = (e) => {
         e.preventDefault();
-        const { username, password, email, phone, address } = this.state;
+        
         const formSignUp = {
             userName: username,
             password: password,
             email: email,
-            phoneNumber: phone,
+            phoneNumber: phoneNumber,
             address: address,
         };
         const url = `${API_URL}/api/auth/register`;
-        return Axios.post(url, formSignUp, { withCredentials: true }).then();
+        return axios.post(url, formSignUp, { withCredentials: true }).then();
     };
     const handleUsername = (e) => {
         setUsername(e.target.value);

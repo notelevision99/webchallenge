@@ -1,31 +1,36 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/LoginPage.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { API_URL } from '../helpers/user/urlCallAxios';
 
+
 function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [infoUser, setUser] = useState({});
     const [error, setError] = useState('');
 
     const login = (e) => {
         e.preventDefault();
         const url = `${API_URL}/api/auth/login`;
-        return axios.post(url, { userName: username, password: password }, { withCredentials: true }).then((res) => {
+        return axios.post(url, { userName: username, password: password }).then((res) => {
             Cookies.set('usrCks', `${res.data.roles}`, { expires: 2 });
             Cookies.set('Usr_N', `${res.data.userName}`, { expires: 2 });
             Cookies.set('Usr_I', `${res.data.userId}`);
         });
     };
 
+
+  
+
     const handleUsername = (e) => {
-        setUsername(e.value);
+        setUsername(e.target.value);
     };
 
     const handlePassword = (e) => {
-        setPassword(e.value);
+        setPassword(e.target.value);
     };
 
     return (
